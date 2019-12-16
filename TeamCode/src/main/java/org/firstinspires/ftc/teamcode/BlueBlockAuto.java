@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous(name="BlueBlockAuto", group ="Concept")
-public class BlueBlockAuto extends LinearOpMode {
+public class BlueBlockAuto extends BaseOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -39,10 +39,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
     @Override public void runOpMode() {
 
-        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
-        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
-        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
-        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+
         Servo flipServo = hardwareMap.servo.get("flippy");
         Servo clawServo = hardwareMap.servo.get("claw_servo");
 

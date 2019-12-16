@@ -13,7 +13,7 @@ package org.firstinspires.ftc.teamcode;
         import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 
-@TeleOp(name = "Mechanum")public class BasicMechanumTeleOp extends LinearOpMode {
+@TeleOp(name = "Mechanum")public class BasicMechanumTeleOp extends BaseOpMode {
     public void runOpMode() {
         //Variables
         double power = 0;
@@ -27,11 +27,8 @@ package org.firstinspires.ftc.teamcode;
         double currentServoPosition;
 
 
-        //Get Motorso
-        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
-        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
-        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
-        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+
+
         Servo flipServo = hardwareMap.servo.get("flippy");
         Servo clawServo = hardwareMap.servo.get("claw_servo");
 
@@ -51,8 +48,7 @@ package org.firstinspires.ftc.teamcode;
         double blPower = 0;
 
         // Gyro init
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters param = new BNO055IMU.Parameters();
+
         param.loggingEnabled = false;
         param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

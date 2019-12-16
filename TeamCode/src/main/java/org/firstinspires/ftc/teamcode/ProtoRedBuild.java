@@ -5,12 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "ProtoRedBuild") public class ProtoRedBuild extends LinearOpMode {
+@Autonomous(name = "ProtoRedBuild") public class ProtoRedBuild extends BaseOpMode {
     @Override public void runOpMode() {
-        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
-        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
-        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
-        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+
         Servo flipServo = hardwareMap.servo.get("flippy");
         Servo clawServo = hardwareMap.servo.get("claw_servo");
 

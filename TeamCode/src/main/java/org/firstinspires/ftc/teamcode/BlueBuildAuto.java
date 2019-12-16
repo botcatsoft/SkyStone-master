@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous(name="BlueBuildAuto", group ="Concept")
-public class BlueBuildAuto extends LinearOpMode {
+public class BlueBuildAuto extends BaseOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -38,10 +38,6 @@ public class BlueBuildAuto extends LinearOpMode {
 
     @Override public void runOpMode() {
 
-        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
-        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
-        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
-        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
 
         //Set Motors
         fl.setDirection(DcMotor.Direction.REVERSE);
