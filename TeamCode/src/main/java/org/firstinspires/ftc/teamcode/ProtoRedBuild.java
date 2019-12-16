@@ -14,6 +14,11 @@ import com.qualcomm.robotcore.hardware.Servo;
         Servo flipServo = hardwareMap.servo.get("flippy");
         Servo clawServo = hardwareMap.servo.get("claw_servo");
 
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.FORWARD);
+
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
