@@ -384,6 +384,7 @@ public class RedBuildAuto extends BaseOpMode {
                 }
             }
 
+
             if(stage == 3){
                 fl.setPower(1);
                 bl.setPower(1);
