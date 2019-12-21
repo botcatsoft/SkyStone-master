@@ -1,14 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "ProtoBlueBuild") public class ProtoBlueBuild extends BaseOpMode {
+import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
+
+@Autonomous(name = "ProtoRedBuild") public class ProtoRedBuild extends BaseOpMode {
     @Override public void runOpMode() {
-      //Variables
-      int stage = 0;
 
         Servo flipServo = hardwareMap.servo.get("flippy");
         Servo clawServo = hardwareMap.servo.get("claw_servo");
@@ -21,81 +20,104 @@ import com.qualcomm.robotcore.hardware.Servo;
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        int stage =0;
+
         clawServo.setPosition(0.82);
         flipServo.setPosition(1);
 
         waitForStart();
         while(opModeIsActive()){
-          //Go Forward
-            if(stage == 0){
+          if(stage == 0){
                 fl.setPower(1);
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(fl.getCurrentPosition() > 1200){
+                if(fl.getCurrentPosition() >1200){
                     stage++;
                 }
             }
-            //Set Claw Down
-            if(stage == 1){
+            //move forward
+          if(stage == 1){
                 clawServo.setPosition(0);
-                stage++;
+                if(fl.getCurrentPosition() > 1200){
+
+                    stage++;
+                }
             }
-            //Drive BackWards
+            //drops the claw
             if(stage == 2){
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(fl.getCurrentPosition() < 5){
+                if(fl.getCurrentPosition() > 1200){
                     stage++;
                 }
             }
-            //Set Claw Up
+            //moves back
             if(stage == 3){
-                clawServo.setPosition(0.82);
+                clawServo.setPosition(0);
+
                 stage++;
+
             }
-            //Go Right
-            if(stage == 4){
+            //lift up the claw
+             if(stage == 4){
                 fl.setPower(1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(1);
-                if(fl.getCurrentPosition() > 900){
+                if(fl.getCurrentPosition() > 1200){
                     stage++;
                 }
             }
-           //Go Forward
-            if(stage == 5){
-              fl.setPower(1);
-              bl.setPower(1);
-              fr.setPower(1);
-              br.setPower(1);
-              if(fl.getCurrentPosition() > 1400){
-                stage++;
-              }
+            //moves left
+          if(stage == 5){
+                fl.setPower(1);
+                bl.setPower(1);
+                fr.setPower(1);
+                br.setPower(1);
+                if(fl.getCurrentPosition() >1200){
+                    stage++;
+                }
             }
-            //Go Left
+            //moves forward
             if(stage == 6){
                 fl.setPower(-1);
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(-1);
-                if(fl.getCurrentPosition() < 500){
+                if(fl.getCurrentPosition() > 1200){
                     stage++;
                 }
             }
-            //Drive BackWards
+            //moves right
             if(stage == 7){
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(fl.getCurrentPosition() < 200){
+                if(fl.getCurrentPosition() >1200){
                     stage++;
                 }
             }
+            //moves backward
+            if(stage == 8){
+                fl.setPower(1);
+                bl.setPower(-1);
+                fr.setPower(-1);
+                br.setPower(1);
+                if(fl.getCurrentPosition() > 1200){
+                    stage++;
+                }
+            }
+            telemetry.addData("frPower: ", fr.getPower());
+            telemetry.addData("flPower: ", fl.getPower());
+            telemetry.addData("brPower: ", br.getPower());
+            telemetry.addData("blPower: ", bl.getPower());
+
+            //moves left
+
        }
     }
 }

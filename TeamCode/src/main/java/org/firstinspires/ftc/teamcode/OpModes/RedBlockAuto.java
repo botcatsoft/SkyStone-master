@@ -1,12 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -20,12 +16,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name="BlueBuildAuto", group ="Concept")
-public class BlueBuildAuto extends BaseOpMode {
+@Autonomous(name="RedBlockAuto", group ="Concept")
+public class RedBlockAuto extends BaseOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -38,6 +36,9 @@ public class BlueBuildAuto extends BaseOpMode {
 
     @Override public void runOpMode() {
 
+
+        Servo flipServo = hardwareMap.servo.get("flippy");
+        Servo clawServo = hardwareMap.servo.get("claw_servo");
 
         //Set Motors
         fl.setDirection(DcMotor.Direction.REVERSE);
@@ -339,6 +340,10 @@ public class BlueBuildAuto extends BaseOpMode {
         int stage = 0;
         skystone.activate();
 
+
+        for(int i=0; i<6; i++){
+
+
         while (opModeIsActive()) {
             for (VuforiaTrackable trackable : allTrackables) {
                 /**
@@ -353,56 +358,94 @@ public class BlueBuildAuto extends BaseOpMode {
                     lastLocation = robotLocationTransform;
                 }
             }
-            if(stage == 0){
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation != null && lastLocation.get(0,0) > (mmFTCFieldWidth/4) + 100){
-                    stage++;
-                    //wait(500);
-                }
-            }
 
-            if(stage == 1){
+            if(stage == 0){
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(lastLocation.get(0,0) < (mmFTCFieldWidth/4)){
+                if(lastLocation != null && lastLocation.get(0,0) > (mmFTCFieldWidth/2) - 949.325){
                     stage++;
+                    //wait(500);
                 }
             }
+            if(stage == 1){
+                clawServo.setPosition(0);
+            }
+        }
 
             if(stage == 2){
-                fl.setPower(-1);
+                fl.setPower(1);
                 bl.setPower(1);
                 fr.setPower(1);
-                br.setPower(-1);
-                if(lastLocation.get(0,1) < 0){
+                br.setPower(1);
+                if(lastLocation.get(0,1) < (-mmFTCFieldWidth/2)+ 474.6625){
                     stage++;
                 }
             }
 
             if(stage == 3){
                 fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
+                bl.setPower(-1);
+                fr.setPower(-1);
                 br.setPower(1);
-                if(lastLocation.get(0,0) < 500){
+                if(lastLocation.get(0,1) < (mmFTCFieldWidth/2)- 596.9){
+                    stage++;
+                }
+            }
+            if(stage == 4){
+                fl.setPower(-1);
+                bl.setPower(-1);
+                fr.setPower(-1);
+                br.setPower(-1);
+                if(lastLocation.get(0,0) < (mmFTCFieldWidth/2) - 949.325){
                     stage++;
                 }
             }
 
-            if(stage == 4){
+            if(stage == 5){
+                clawServo.setPosition(0.82);
+
+            }
+            if(stage == 6){
+                flipServo.setPosition(0.5);
+                flipServo.setPosition(1.0);
+
+            if(stage == 7){
+                fl.setPower(1);
+                bl.setPower(1);
+                fr.setPower(1);
+                br.setPower(1);
+                if(lastLocation.get(0,0) < (mmFTCFieldWidth/2)- 474.6625){
+                    stage++;
+                }
+            }
+                if(stage == 8) {
+                    clawServo.setPosition(0);
+                }
+            if(stage == 9){
                 fl.setPower(1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) > 500){
+                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 1193.8 - 203.2 * i){
                     stage++;
                 }
             }
+            if(stage == 10){
+                fl.setPower(1);
+                bl.setPower(1);
+                fr.setPower(1);
+                br.setPower(1);
+                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 228.6){
+                    stage++;
+                }
+            }
+                if(stage == 11) {
+                    clawServo.setPosition(0.82);
+                }
+
+        }
 
 
             /**
@@ -425,5 +468,9 @@ public class BlueBuildAuto extends BaseOpMode {
     String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
+
+
+
+
 
 }

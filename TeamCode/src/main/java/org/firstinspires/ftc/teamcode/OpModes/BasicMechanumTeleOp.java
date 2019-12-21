@@ -1,15 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 
         import com.qualcomm.hardware.bosch.BNO055IMU;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
         import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.hardware.Servo;
         import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
         import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
         import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
         import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+        import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
         import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 
@@ -17,14 +16,13 @@ package org.firstinspires.ftc.teamcode;
     public void runOpMode() {
         //Variables
         double power = 0;
-        double direction = 0;
+        double direction;
         boolean rightBumper = true;
         boolean leftBumper = true;
         boolean tooHigh;
         boolean tooLow;
         boolean clawDebounce = false;
         boolean flippyDebounce = false;
-        double currentServoPosition;
         double armTarget;
         double error;
         double lastError = 0;
@@ -212,10 +210,10 @@ package org.firstinspires.ftc.teamcode;
 
             Vector2d input = new Vector2d(gamepad1.left_stick_y/2, gamepad1.left_stick_x/2);
             double rot = gamepad1.right_trigger - gamepad1.left_trigger;
-            fl.setPower(-input.x + input.y + rot);
-            fr.setPower(-input.x - input.y - rot);
-            bl.setPower(-input.x - input.y + rot);
-            br.setPower(-input.x + input.y - rot);
+            fl.setPower(input.x + input.y + rot);
+            fr.setPower(input.x - input.y - rot);
+            bl.setPower(input.x - input.y + rot);
+            br.setPower(input.x + input.y - rot);
 
 
                 telemetry.addData("Direction: ", direction);

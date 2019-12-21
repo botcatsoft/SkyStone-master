@@ -1,10 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -20,13 +16,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
+import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name="RedBlockAuto", group ="Concept")
-public class RedBlockAuto extends BaseOpMode {
+@Autonomous(name="BlueBlockAuto", group ="Concept")
+public class BlueBlockAuto extends BaseOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -43,9 +39,10 @@ public class RedBlockAuto extends BaseOpMode {
         Servo flipServo = hardwareMap.servo.get("flippy");
         Servo clawServo = hardwareMap.servo.get("claw_servo");
 
+
         //Set Motors
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -340,15 +337,19 @@ public class RedBlockAuto extends BaseOpMode {
         waitForStart();
 
         /** Start tracking the data sets we care about. */
+
+
+
         int stage = 0;
         skystone.activate();
+
 
 
         for(int i=0; i<6; i++){
 
 
         while (opModeIsActive()) {
-            for (VuforiaTrackable trackable : allTrackables) {
+            for(VuforiaTrackable trackable : allTrackables) {
                 /**
                  * getUpdatedRobotLocation() will return null if no new information is available since
                  * the last time that call was made, or if the trackable is not currently visible.
@@ -361,13 +362,12 @@ public class RedBlockAuto extends BaseOpMode {
                     lastLocation = robotLocationTransform;
                 }
             }
-
             if(stage == 0){
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(lastLocation != null && lastLocation.get(0,0) > (mmFTCFieldWidth/2) - 949.325){
+                if(lastLocation != null && lastLocation.get(0,0) < (-mmFTCFieldWidth/2) + 949.325){
                     stage++;
                     //wait(500);
                 }
@@ -382,26 +382,27 @@ public class RedBlockAuto extends BaseOpMode {
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) < (-mmFTCFieldWidth/2)+ 474.6625){
+                if(lastLocation.get(0,0) > (-mmFTCFieldWidth/2) + 474.6625){
                     stage++;
                 }
             }
 
             if(stage == 3){
-                fl.setPower(1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(1);
-                if(lastLocation.get(0,1) < (mmFTCFieldWidth/2)- 596.9){
+                fl.setPower(-1);
+                bl.setPower(1);
+                fr.setPower(1);
+                br.setPower(-1);
+                if(lastLocation.get(0,1) < (mmFTCFieldWidth/2) - 596.9){
                     stage++;
                 }
             }
+
             if(stage == 4){
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(lastLocation.get(0,0) < (mmFTCFieldWidth/2) - 949.325){
+                if(lastLocation.get(0,0) < (-mmFTCFieldWidth/2) + 949.325){
                     stage++;
                 }
             }
@@ -414,24 +415,26 @@ public class RedBlockAuto extends BaseOpMode {
                 flipServo.setPosition(0.5);
                 flipServo.setPosition(1.0);
 
+            }
             if(stage == 7){
                 fl.setPower(1);
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(lastLocation.get(0,0) < (mmFTCFieldWidth/2)- 474.6625){
+                if(lastLocation.get(0,1) > (-mmFTCFieldWidth/2) + 474.6625){
                     stage++;
                 }
             }
-                if(stage == 8) {
-                    clawServo.setPosition(0);
-                }
+            if(stage == 8){
+                clawServo.setPosition(0);
+
+            }
             if(stage == 9){
                 fl.setPower(1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 1193.8 - 203.2 * i){
+                if(lastLocation.get(0,1) > (-mmFTCFieldWidth/2) + 1193.8 - 203.2 * i){
                     stage++;
                 }
             }
@@ -440,14 +443,13 @@ public class RedBlockAuto extends BaseOpMode {
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 228.6){
+                if(lastLocation.get(0,0) > (-mmFTCFieldWidth/2) + 228.6){
                     stage++;
                 }
             }
-                if(stage == 11) {
-                    clawServo.setPosition(0.82);
-                }
-
+            if(stage == 11) {
+                clawServo.setPosition(0.82);
+            }
         }
 
 
@@ -462,7 +464,7 @@ public class RedBlockAuto extends BaseOpMode {
             }
             telemetry.update();
         }
-    }
+
 
     /**
      * A simple utility that extracts positioning information from a transformation matrix
@@ -471,9 +473,5 @@ public class RedBlockAuto extends BaseOpMode {
     String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
-
-
-
-
 
 }

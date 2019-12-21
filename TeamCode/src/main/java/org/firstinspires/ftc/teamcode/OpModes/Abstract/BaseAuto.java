@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes.Abstract;
 
 public abstract class BaseAuto extends BaseOpMode {
     public double targetX;
