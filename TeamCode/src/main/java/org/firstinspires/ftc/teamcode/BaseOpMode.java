@@ -11,6 +11,7 @@ public abstract class BaseOpMode extends LinearOpMode {
         public DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
         public DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
         public DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+        public DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
         //Motor Directions
 

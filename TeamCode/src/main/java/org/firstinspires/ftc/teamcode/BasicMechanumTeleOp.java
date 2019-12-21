@@ -25,9 +25,19 @@ package org.firstinspires.ftc.teamcode;
         boolean clawDebounce = false;
         boolean flippyDebounce = false;
         double currentServoPosition;
+        double armTarget;
+        double error;
+        double lastError = 0;
+        double correction;
+        double kd = 0.5;
+        double kp = 0.5;
+        double derivative;
 
 
 
+
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         Servo flipServo = hardwareMap.servo.get("flippy");
         Servo clawServo = hardwareMap.servo.get("claw_servo");
@@ -142,13 +152,29 @@ package org.firstinspires.ftc.teamcode;
 
             //moves arm
             if (rightBumper) {
-                clawServo.setPosition(0.82); // up and back
+                armTarget = 0; // up
                 //MotorStuff
                 //If Arm is Down then go up if pressed
-            } else{
-                clawServo.setPosition(0); // touching mat
+            } else {
+                armTarget = 90;  // touching mat
                 //MotorStuff
             }
+
+
+
+
+
+          error = armTarget - clawMotor.getCurrentPosition();
+          derivative = error - lastError;
+          correction = kp * error + kd * derivative;
+          clawMotor.setPower(correction);
+
+
+
+
+
+
+
 
             //flippy variable switch
             if (gamepad1.left_bumper && flippyDebounce == false) {
