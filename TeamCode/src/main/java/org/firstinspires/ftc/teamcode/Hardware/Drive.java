@@ -16,8 +16,8 @@ public class Drive {
     Vector2d lastErrorVector = new Vector2d(0,0);
     Vector2d derivativeVector = new Vector2d(0,0);
     Vector2d correctionVector = new Vector2d(0,0);
-    private double direction;
-    double targetX = 0;
+    Vector2d normalizedErrorVector = new Vector2d(0,0);
+
 
 
     //public DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
@@ -28,13 +28,10 @@ public class Drive {
     public void drive(Vector2d currentPositionVector, double speed){
 
         errorVector = Vector2d.subtract(targetVector,currentPositionVector);
+        normalizedErrorVector = Vector2d.normalize(errorVector);
 
-        direction = Math.atan2(errorVector.y, errorVector.x);
-
-
-
-        derivativeVector = Vector2d.subtract(errorVector,lastErrorVector);
-        correctionVector = Vector2d.add(Vector2d.multiply(kp, errorVector), Vector2d.multiply(kd, derivativeVector));
+        derivativeVector = Vector2d.subtract(normalizedErrorVector,lastErrorVector);
+        correctionVector = Vector2d.add(Vector2d.multiply(kp, normalizedErrorVector), Vector2d.multiply(kd, derivativeVector));
 
 
         fr.setPower(speed * (correctionVector.x + correctionVector.y));
@@ -43,7 +40,7 @@ public class Drive {
         bl.setPower(speed * (correctionVector.x + correctionVector.y));
 
 
-        lastErrorVector = errorVector;
+        lastErrorVector = normalizedErrorVector;
 
     }
     public void setTarget(Vector2d targetVector){

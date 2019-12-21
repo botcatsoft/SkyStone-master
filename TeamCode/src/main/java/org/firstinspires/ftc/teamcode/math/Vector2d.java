@@ -22,6 +22,13 @@ public class Vector2d {
         return new Vector2d(v.x * w, v.y * w);
     }
 
+    public static Vector2d normalize(Vector2d v){
+        double magnitude = Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.y, 2));
+        double inverseMagnitude = 1/magnitude;
+        Vector2d normalizedVector = Vector2d.multiply(v, inverseMagnitude);
+        return normalizedVector;
+    }
+
 
     public static Vector2d rotate(Vector2d v, double angle) {
         double x = v.x * Math.cos(angle) - v.y * Math.sin(angle);
