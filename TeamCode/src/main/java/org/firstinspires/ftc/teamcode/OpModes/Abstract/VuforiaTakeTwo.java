@@ -56,10 +56,6 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
 
     OpenGLMatrix lastLocation = null;
 
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
     VuforiaLocalizer vuforia;
 
     @Override public void runOpMode() {
@@ -76,6 +72,9 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         VuforiaTrackables skystone = this.vuforia.loadTrackablesFromAsset("Skystone");
+
+
+
         //Initialising all trackables
         VuforiaTrackable bridgeBlueRear  = skystone.get(2);
         bridgeBlueRear.setName("BridgeBlueRear");
@@ -113,6 +112,8 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
         VuforiaTrackable rearTarget2  = skystone.get(13);
         rearTarget2.setName("RearPerimeterTgt2");
 
+
+
         /** For convenience, gather together all the trackable objects in one easily-iterable collection */
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(skystone);
@@ -121,8 +122,9 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
         float mmBotWidth       = 18 * mmPerInch;            // ... or whatever is right for your robot
         float mmFTCFieldWidth  = (12*12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
 
-       //set the position and rotation of each trackable and the phone relative to the center of the robot
 
+
+       //set the position and rotation of each trackable and the phone relative to the center of the robot
        OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
 
                 .translation(mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
@@ -248,6 +250,8 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
         blueTarget2.setLocation(bridgeRedFrontLocationOnField);
         RobotLog.ii(TAG, "Bridge Red Front =%s", format(bridgeRedFrontLocationOnField));
 
+
+        //We need to describe where on the bot the phone is
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
                 .translation(mmBotWidth/4,0,0)
                 .multiplied(Orientation.getRotationMatrix(
@@ -255,11 +259,9 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
                         AngleUnit.DEGREES, -180, 0, 0));
         RobotLog.ii(TAG, "phone=%s", format(phoneLocationOnRobot));
 
-        /**
-         * Let the trackable listeners we care about know where the phone is. We know that each
-         * listener is a {@link VuforiaTrackableDefaultListener} and can so safely cast because
-         * we have not ourselves installed a listener of a different type.
-         */
+
+
+
         // listeners for wall trackables
         ((VuforiaTrackableDefaultListener)redTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
         ((VuforiaTrackableDefaultListener)redTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);

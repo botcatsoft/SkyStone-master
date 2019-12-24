@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 public class Drive {
 
-    public double correction;
+
     public double kp;
     public double kd;
 
@@ -20,30 +20,28 @@ public class Drive {
 
 
 
-    //public DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
-    //public DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
-    //public DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
-    //public DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
-
     public void drive(Vector2d currentPositionVector, double speed){
-
+        //error is target - current
         errorVector = Vector2d.subtract(targetVector,currentPositionVector);
-        normalizedErrorVector = Vector2d.normalize(errorVector);
-
+        //normalize the error vector because we choose the scale here
+        normalizedErrorVector = Vector2d.multiply(errorVector, 0.001);
+        //sets derivative and correction vectors
         derivativeVector = Vector2d.subtract(normalizedErrorVector,lastErrorVector);
         correctionVector = Vector2d.add(Vector2d.multiply(kp, normalizedErrorVector), Vector2d.multiply(kd, derivativeVector));
 
-
+        //power setters
         fr.setPower(speed * (correctionVector.x + correctionVector.y));
-        fl.setPower(speed * (correctionVector.x - correctionVector.y));
-        br.setPower(speed * (correctionVector.x - correctionVector.y));
+        fl.setPower(speed * (- correctionVector.x + correctionVector.y));
+        br.setPower(speed * (- correctionVector.x + correctionVector.y));
         bl.setPower(speed * (correctionVector.x + correctionVector.y));
 
-
+        //last error recursivity
         lastErrorVector = normalizedErrorVector;
 
-    }
-    public void setTarget(Vector2d targetVector){
+        }
+
+//target setter
+public void setTarget(Vector2d targetVector){
         this.targetVector = targetVector;
-    }
+        }
 }

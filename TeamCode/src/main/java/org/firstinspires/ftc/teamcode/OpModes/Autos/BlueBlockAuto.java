@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -20,8 +21,8 @@ import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name="BlueBuildAuto", group ="Concept")
-public class BlueBuildAuto extends BaseOpMode {
+@Autonomous(name="BlueBlockAuto", group ="Concept")
+public class BlueBlockAuto extends BaseOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -35,9 +36,13 @@ public class BlueBuildAuto extends BaseOpMode {
     @Override public void runOpMode() {
 
 
+        Servo flipServo = hardwareMap.servo.get("flippy");
+        Servo clawServo = hardwareMap.servo.get("claw_servo");
+
+
         //Set Motors
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -332,11 +337,19 @@ public class BlueBuildAuto extends BaseOpMode {
         waitForStart();
 
         /** Start tracking the data sets we care about. */
+
+
+
         int stage = 0;
         skystone.activate();
 
+
+
+        for(int i=0; i<6; i++){
+
+
         while (opModeIsActive()) {
-            for (VuforiaTrackable trackable : allTrackables) {
+            for(VuforiaTrackable trackable : allTrackables) {
                 /**
                  * getUpdatedRobotLocation() will return null if no new information is available since
                  * the last time that call was made, or if the trackable is not currently visible.
@@ -350,55 +363,94 @@ public class BlueBuildAuto extends BaseOpMode {
                 }
             }
             if(stage == 0){
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation != null && lastLocation.get(0,0) > (mmFTCFieldWidth/4) + 100){
-                    stage++;
-                    //wait(500);
-                }
-            }
-
-            if(stage == 1){
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(lastLocation.get(0,0) < (mmFTCFieldWidth/4)){
+                if(lastLocation != null && lastLocation.get(0,0) < (-mmFTCFieldWidth/2) + 949.325){
                     stage++;
+                    //wait(500);
                 }
             }
+            if(stage == 1){
+                clawServo.setPosition(0);
+            }
+        }
 
             if(stage == 2){
-                fl.setPower(-1);
+                fl.setPower(1);
                 bl.setPower(1);
                 fr.setPower(1);
-                br.setPower(-1);
-                if(lastLocation.get(0,1) < 0){
+                br.setPower(1);
+                if(lastLocation.get(0,0) > (-mmFTCFieldWidth/2) + 474.6625){
                     stage++;
                 }
             }
 
             if(stage == 3){
-                fl.setPower(1);
+                fl.setPower(-1);
                 bl.setPower(1);
                 fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation.get(0,0) < 500){
+                br.setPower(-1);
+                if(lastLocation.get(0,1) < (mmFTCFieldWidth/2) - 596.9){
                     stage++;
                 }
             }
 
             if(stage == 4){
+                fl.setPower(-1);
+                bl.setPower(-1);
+                fr.setPower(-1);
+                br.setPower(-1);
+                if(lastLocation.get(0,0) < (-mmFTCFieldWidth/2) + 949.325){
+                    stage++;
+                }
+            }
+
+            if(stage == 5){
+                clawServo.setPosition(0.82);
+
+            }
+            if(stage == 6){
+                flipServo.setPosition(0.5);
+                flipServo.setPosition(1.0);
+
+            }
+            if(stage == 7){
+                fl.setPower(1);
+                bl.setPower(1);
+                fr.setPower(1);
+                br.setPower(1);
+                if(lastLocation.get(0,1) > (-mmFTCFieldWidth/2) + 474.6625){
+                    stage++;
+                }
+            }
+            if(stage == 8){
+                clawServo.setPosition(0);
+
+            }
+            if(stage == 9){
                 fl.setPower(1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) > 500){
+                if(lastLocation.get(0,1) > (-mmFTCFieldWidth/2) + 1193.8 - 203.2 * i){
                     stage++;
                 }
             }
+            if(stage == 10){
+                fl.setPower(1);
+                bl.setPower(1);
+                fr.setPower(1);
+                br.setPower(1);
+                if(lastLocation.get(0,0) > (-mmFTCFieldWidth/2) + 228.6){
+                    stage++;
+                }
+            }
+            if(stage == 11) {
+                clawServo.setPosition(0.82);
+            }
+        }
 
 
             /**
@@ -412,7 +464,7 @@ public class BlueBuildAuto extends BaseOpMode {
             }
             telemetry.update();
         }
-    }
+
 
     /**
      * A simple utility that extracts positioning information from a transformation matrix

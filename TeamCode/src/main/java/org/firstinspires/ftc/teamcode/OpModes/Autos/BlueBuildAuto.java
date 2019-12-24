@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name="RedBuildAuto", group ="Concept")
-public class RedBuildAuto extends BaseOpMode {
+@Autonomous(name="BlueBuildAuto", group ="Concept")
+public class BlueBuildAuto extends BaseOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -33,7 +33,6 @@ public class RedBuildAuto extends BaseOpMode {
     VuforiaLocalizer vuforia;
 
     @Override public void runOpMode() {
-
 
 
         //Set Motors
@@ -372,15 +371,14 @@ public class RedBuildAuto extends BaseOpMode {
             }
 
             if(stage == 2){
-                fl.setPower(1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(1);
+                fl.setPower(-1);
+                bl.setPower(1);
+                fr.setPower(1);
+                br.setPower(-1);
                 if(lastLocation.get(0,1) < 0){
                     stage++;
                 }
             }
-
 
             if(stage == 3){
                 fl.setPower(1);
@@ -393,10 +391,10 @@ public class RedBuildAuto extends BaseOpMode {
             }
 
             if(stage == 4){
-                fl.setPower(-1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(-1);
+                fl.setPower(1);
+                bl.setPower(-1);
+                fr.setPower(-1);
+                br.setPower(1);
                 if(lastLocation.get(0,1) > 500){
                     stage++;
                 }
@@ -423,9 +421,5 @@ public class RedBuildAuto extends BaseOpMode {
     String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
-
-
-
-
 
 }
