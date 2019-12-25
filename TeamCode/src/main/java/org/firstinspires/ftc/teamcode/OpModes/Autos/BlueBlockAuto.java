@@ -99,25 +99,25 @@ public class BlueBlockAuto extends BaseOpMode {
         VuforiaTrackable redTarget1 = skystone.get(5);
         redTarget1.setName("RedPerimeterTgt1");
 
-        VuforiaTrackable redTarget2  = skystone.get(6);
+        VuforiaTrackable redTarget2 = skystone.get(6);
         redTarget2.setName("RedPerimeterTgt2");
 
-        VuforiaTrackable frontTarget1  = skystone.get(7);
+        VuforiaTrackable frontTarget1 = skystone.get(7);
         frontTarget1.setName("FrontPerimeterTgt1");
 
-        VuforiaTrackable frontTarget2  = skystone.get(8);
+        VuforiaTrackable frontTarget2 = skystone.get(8);
         frontTarget2.setName("FrontPerimeterTgt2");
 
-        VuforiaTrackable blueTarget1  = skystone.get(9);
+        VuforiaTrackable blueTarget1 = skystone.get(9);
         blueTarget1.setName("BluePerimeterTgt1");
 
-        VuforiaTrackable blueTarget2  = skystone.get(10);
+        VuforiaTrackable blueTarget2 = skystone.get(10);
         blueTarget2.setName("BluePerimeterTgt2");
 
-        VuforiaTrackable rearTarget1  = skystone.get(11);
+        VuforiaTrackable rearTarget1 = skystone.get(11);
         rearTarget1.setName("RearPerimeterTgt1");
 
-        VuforiaTrackable rearTarget2  = skystone.get(12);
+        VuforiaTrackable rearTarget2 = skystone.get(12);
         rearTarget2.setName("RearPerimeterTgt2");
 
         /** For convenience, gather together all the trackable objects in one easily-iterable collection */
@@ -131,9 +131,9 @@ public class BlueBlockAuto extends BaseOpMode {
          * You don't *have to* use mm here, but the units here and the units used in the XML
          * target configuration files *must* correspond for the math to work out correctly.
          */
-        float mmPerInch        = 25.4f;
-        float mmBotWidth       = 18 * mmPerInch;            // ... or whatever is right for your robot
-        float mmFTCFieldWidth  = (12*12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
+        float mmPerInch = 25.4f;
+        float mmBotWidth = 18 * mmPerInch;            // ... or whatever is right for your robot
+        float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
 
         /**
          * In order for localization to work, we need to tell the system where each target we
@@ -194,7 +194,7 @@ public class BlueBlockAuto extends BaseOpMode {
 
         OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
 
-                .translation(mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -204,7 +204,7 @@ public class BlueBlockAuto extends BaseOpMode {
 
 
         OpenGLMatrix redTarget2LocationOnField = OpenGLMatrix
-                .translation(mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
+                .translation(mmFTCFieldWidth / 2, (-mmFTCFieldWidth / 2) + 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
                         AngleUnit.DEGREES, 90, 90, 0));
@@ -212,11 +212,9 @@ public class BlueBlockAuto extends BaseOpMode {
         RobotLog.ii(TAG, "Red Target 2 =%s", format(redTarget2LocationOnField));
 
 
-
-
         OpenGLMatrix rearTarget1LocationOnField = OpenGLMatrix
 
-                .translation((-mmFTCFieldWidth/2) + 914.4f, (mmFTCFieldWidth/2) , 146.05f)
+                .translation((-mmFTCFieldWidth / 2) + 914.4f, (mmFTCFieldWidth / 2), 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -228,7 +226,7 @@ public class BlueBlockAuto extends BaseOpMode {
         OpenGLMatrix rearTarget2LocationOnField = OpenGLMatrix
 
 
-                .translation((mmFTCFieldWidth/2) - 914.4f, mmFTCFieldWidth/2, 146.05f)
+                .translation((mmFTCFieldWidth / 2) - 914.4f, mmFTCFieldWidth / 2, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -237,11 +235,9 @@ public class BlueBlockAuto extends BaseOpMode {
         RobotLog.ii(TAG, "Rear Target 1 =%s", format(rearTarget2LocationOnField));
 
 
-
-
         OpenGLMatrix frontTarget1LocationOnField = OpenGLMatrix
 
-                .translation((mmFTCFieldWidth/2) - 914.4f, (-mmFTCFieldWidth/2), 146.05f)
+                .translation((mmFTCFieldWidth / 2) - 914.4f, (-mmFTCFieldWidth / 2), 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -252,7 +248,7 @@ public class BlueBlockAuto extends BaseOpMode {
 
         OpenGLMatrix frontTarget2LocationOnField = OpenGLMatrix
 
-                .translation((-mmFTCFieldWidth/2) + 914.4f, (-mmFTCFieldWidth/2), 146.05f)
+                .translation((-mmFTCFieldWidth / 2) + 914.4f, (-mmFTCFieldWidth / 2), 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -261,11 +257,9 @@ public class BlueBlockAuto extends BaseOpMode {
         RobotLog.ii(TAG, "Front Target 1 =%s", format(frontTarget2LocationOnField));
 
 
-
-
         OpenGLMatrix blueTarget1LocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (-mmFTCFieldWidth / 2) + 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -276,7 +270,7 @@ public class BlueBlockAuto extends BaseOpMode {
 
         OpenGLMatrix blueTarget2LocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -285,11 +279,8 @@ public class BlueBlockAuto extends BaseOpMode {
         RobotLog.ii(TAG, "Blue Target 2 =%s", format(frontTarget1LocationOnField));
 
 
-
-
-
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation(mmBotWidth/4,0,0)
+                .translation(mmBotWidth / 4, 0, 0)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.YZY,
                         AngleUnit.DEGREES, -180, 0, 0));
@@ -301,15 +292,14 @@ public class BlueBlockAuto extends BaseOpMode {
          * we have not ourselves installed a listener of a different type.
          */
 
-        ((VuforiaTrackableDefaultListener)redTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)redTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)blueTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)blueTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)frontTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)frontTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)rearTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)rearTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-
+        ((VuforiaTrackableDefaultListener) redTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) redTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) blueTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) blueTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) frontTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) frontTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) rearTarget1.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) rearTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
 
 
         /**
@@ -339,118 +329,118 @@ public class BlueBlockAuto extends BaseOpMode {
         /** Start tracking the data sets we care about. */
 
 
-
         int stage = 0;
         skystone.activate();
 
+        int loop = 0;
 
 
-        for(int i=0; i<6; i++){
+
+
 
 
         while (opModeIsActive()) {
-            for(VuforiaTrackable trackable : allTrackables) {
-                /**
-                 * getUpdatedRobotLocation() will return null if no new information is available since
-                 * the last time that call was made, or if the trackable is not currently visible.
-                 * getRobotLocation() will return null if the trackable is not currently visible.
-                 */
-                telemetry.addData(trackable.getName(), ((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible() ? "Visible" : "Not Visible");    //
+            for (VuforiaTrackable trackable : allTrackables) {
 
-                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                telemetry.addData(trackable.getName(), ((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible() ? "Visible" : "Not Visible");    //
+
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                 }
             }
-            if(stage == 0){
+            if (stage == 0) {
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(lastLocation != null && lastLocation.get(0,0) < (-mmFTCFieldWidth/2) + 949.325){
+                if (lastLocation != null && lastLocation.get(0, 0) < (-mmFTCFieldWidth / 2) + 949.325) {
                     stage++;
                     //wait(500);
                 }
             }
-            if(stage == 1){
+            if (stage == 1) {
                 clawServo.setPosition(0);
             }
-        }
 
-            if(stage == 2){
+
+            if (stage == 2) {
                 fl.setPower(1);
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(lastLocation.get(0,0) > (-mmFTCFieldWidth/2) + 474.6625){
+                if (lastLocation.get(0, 0) > (-mmFTCFieldWidth / 2) + 474.6625) {
                     stage++;
                 }
             }
 
-            if(stage == 3){
+            if (stage == 3) {
                 fl.setPower(-1);
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(-1);
-                if(lastLocation.get(0,1) < (mmFTCFieldWidth/2) - 596.9){
+                if (lastLocation.get(0, 1) < (mmFTCFieldWidth / 2) - 596.9) {
                     stage++;
                 }
             }
 
-            if(stage == 4){
+            if (stage == 4) {
                 fl.setPower(-1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(-1);
-                if(lastLocation.get(0,0) < (-mmFTCFieldWidth/2) + 949.325){
+                if (lastLocation.get(0, 0) < (-mmFTCFieldWidth / 2) + 949.325) {
                     stage++;
                 }
             }
 
-            if(stage == 5){
+            if (stage == 5) {
                 clawServo.setPosition(0.82);
-
             }
-            if(stage == 6){
+            if (stage == 6) {
                 flipServo.setPosition(0.5);
                 flipServo.setPosition(1.0);
-
             }
-            if(stage == 7){
+            if (stage == 7) {
                 fl.setPower(1);
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) > (-mmFTCFieldWidth/2) + 474.6625){
+                if (lastLocation.get(0, 1) > (-mmFTCFieldWidth / 2) + 474.6625) {
                     stage++;
                 }
             }
-            if(stage == 8){
+            if (stage == 8) {
                 clawServo.setPosition(0);
 
             }
-            if(stage == 9){
+            if (stage == 9) {
                 fl.setPower(1);
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) > (-mmFTCFieldWidth/2) + 1193.8 - 203.2 * i){
+                if (lastLocation.get(0, 1) > (-mmFTCFieldWidth / 2) + 1193.8 - 203.2 * loop) {
                     stage++;
                 }
             }
-            if(stage == 10){
+            if (stage == 10) {
                 fl.setPower(1);
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(lastLocation.get(0,0) > (-mmFTCFieldWidth/2) + 228.6){
+                if (lastLocation.get(0, 0) > (-mmFTCFieldWidth / 2) + 228.6) {
                     stage++;
                 }
             }
-            if(stage == 11) {
+            if (stage == 11) {
                 clawServo.setPosition(0.82);
+                stage = 0;
+                loop++;
             }
-        }
+            if(loop == 6){
+                //drive to center line
+            }
+
 
 
             /**
@@ -464,6 +454,7 @@ public class BlueBlockAuto extends BaseOpMode {
             }
             telemetry.update();
         }
+    }
 
 
     /**

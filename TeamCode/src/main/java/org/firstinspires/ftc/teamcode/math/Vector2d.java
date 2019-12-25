@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.math;
 
 public class Vector2d {
-    public final double x, y;
+    public double x, y;
     public Vector2d(double xPos, double yPos)  {
         this.x = xPos;
         this.y = yPos;
@@ -35,4 +35,14 @@ public class Vector2d {
         double y = v.x * Math.sin(angle) - v.y * Math.cos(angle);
         return new Vector2d(x, y);
     }
+
+    public void set(double xPos, double yPos){
+        this.x = xPos;
+        this.y = yPos;
+    }
+
+    public double getMagnitude(){
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
 }

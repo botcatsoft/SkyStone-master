@@ -15,7 +15,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
+import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -334,6 +336,8 @@ public class RedBuildAuto extends BaseOpMode {
 
         /** Start tracking the data sets we care about. */
         int stage = 0;
+        Drive homer = new Drive();
+
         skystone.activate();
 
         while (opModeIsActive()) {
@@ -349,58 +353,68 @@ public class RedBuildAuto extends BaseOpMode {
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                 }
+
             }
+
+            //drive up to site
             if(stage == 0){
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation != null && lastLocation.get(0,0) > (mmFTCFieldWidth/4) + 100){
-                    stage++;
-                    //wait(500);
-                }
+                homer.setTarget(596.9,1193.8);
             }
 
+            //latch on
             if(stage == 1){
-                fl.setPower(-1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(-1);
-                if(lastLocation.get(0,0) < (mmFTCFieldWidth/4)){
-                    stage++;
-                }
+              //latch on
             }
 
+            //pull site back
             if(stage == 2){
-                fl.setPower(1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(1);
-                if(lastLocation.get(0,1) < 0){
-                    stage++;
-                }
+                homer.setTarget(1562.1,1193.8);
             }
 
-
+            //unlatch
             if(stage == 3){
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation.get(0,0) < 500){
-                    stage++;
-                }
+               //unlatch
             }
 
+            //drive towards bridge past site
             if(stage == 4){
-                fl.setPower(-1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(-1);
-                if(lastLocation.get(0,1) > 500){
-                    stage++;
-                }
+                homer.setTarget(1562.1, 300);
             }
+
+            //drive towards blue side past site
+            if(stage == 5){
+                homer.setTarget(650, 300);
+            }
+
+            //drive away from bridge so we can push site back
+            if(stage == 6){
+                homer.setTarget(650, 1193.8);
+            }
+
+            //push site back against the wall
+            if(stage == 7){
+                homer.setTarget(1200, 1193.8);
+            }
+
+            //drive under bridge for big points
+            if(stage > 7){
+                homer.setTarget(1200, 0);
+            }
+
+            if(homer.atTarget()){
+                stage++;
+            }
+
+            Vector2d correction;
+            Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+            correction = homer.drive(currentPosition, 1);
+
+            fr.setPower(-correction.x + correction.y);
+            fl.setPower(-correction.x - correction.y);
+            br.setPower(-correction.x - correction.y);
+            bl.setPower(-correction.x + correction.y);
+
+
 
 
             /**

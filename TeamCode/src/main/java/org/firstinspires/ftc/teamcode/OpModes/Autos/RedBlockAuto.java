@@ -340,8 +340,9 @@ public class RedBlockAuto extends BaseOpMode {
         int stage = 0;
         skystone.activate();
 
+        int loop = 0
 
-        for(int i=0; i<6; i++){
+
 
 
         while (opModeIsActive()) {
@@ -428,7 +429,7 @@ public class RedBlockAuto extends BaseOpMode {
                 bl.setPower(-1);
                 fr.setPower(-1);
                 br.setPower(1);
-                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 1193.8 - 203.2 * i){
+                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 1193.8 - 203.2 * loop){
                     stage++;
                 }
             }
@@ -443,6 +444,8 @@ public class RedBlockAuto extends BaseOpMode {
             }
                 if(stage == 11) {
                     clawServo.setPosition(0.82);
+                    stage = 0
+                    int ++
                 }
 
         }
