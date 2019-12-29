@@ -279,8 +279,6 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
         ((VuforiaTrackableDefaultListener)bridgeBlueFront.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
 
 
-
-
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
