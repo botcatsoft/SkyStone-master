@@ -280,7 +280,7 @@ public class BlueBlockAuto extends BaseOpMode {
                 }
             }
             if (stage == 0) {
-                homer.setTarget(-825.5 - (loop * 198.97), -696.38 - (loop * 198.97));
+                homer.setTarget(-825.5, -696.38 - (loop * 198.97));
                     //go to block
                 }
             }
