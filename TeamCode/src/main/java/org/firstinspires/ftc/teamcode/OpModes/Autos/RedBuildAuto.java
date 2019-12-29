@@ -138,8 +138,6 @@ public class RedBuildAuto extends BaseOpMode {
         RobotLog.ii(TAG, "Red Target 2 =%s", format(redTarget2LocationOnField));
 
 
-
-
         OpenGLMatrix rearTarget1LocationOnField = OpenGLMatrix
 
                 .translation((-mmFTCFieldWidth/2) + 914.4f, (mmFTCFieldWidth/2) , 146.05f)
@@ -161,8 +159,6 @@ public class RedBuildAuto extends BaseOpMode {
                         AngleUnit.DEGREES, 180, 0, 0));
         rearTarget2.setLocation(rearTarget2LocationOnField);
         RobotLog.ii(TAG, "Rear Target 1 =%s", format(rearTarget2LocationOnField));
-
-
 
 
         OpenGLMatrix frontTarget1LocationOnField = OpenGLMatrix
@@ -209,46 +205,6 @@ public class RedBuildAuto extends BaseOpMode {
                         AngleUnit.DEGREES, 0, 0, 90));
         blueTarget2.setLocation(blueTarget2LocationOnField);
         RobotLog.ii(TAG, "Blue Target 2 =%s", format(frontTarget1LocationOnField));
-
-        OpenGLMatrix bridgeBlueRearLocationOnField = OpenGLMatrix
-
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
-                .multiplied(Orientation.getRotationMatrix(
-
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 180, -60, 0));
-        blueTarget2.setLocation(bridgeBlueRearLocationOnField);
-        RobotLog.ii(TAG, "Bridge Blue Rear =%s", format(bridgeBlueRearLocationOnField));
-
-        OpenGLMatrix bridgeRedRearLocationOnField = OpenGLMatrix
-
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
-                .multiplied(Orientation.getRotationMatrix(
-
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 0, 60, 0));
-        blueTarget2.setLocation(bridgeRedRearLocationOnField);
-        RobotLog.ii(TAG, "Bridge Red Rear =%s", format(bridgeRedRearLocationOnField));
-
-        OpenGLMatrix bridgeBlueFrontLocationOnField = OpenGLMatrix
-
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
-                .multiplied(Orientation.getRotationMatrix(
-
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 180, -60, 0));
-        blueTarget2.setLocation(bridgeBlueFrontLocationOnField);
-        RobotLog.ii(TAG, "Bridge Blue Front =%s", format(bridgeBlueFrontLocationOnField));
-
-        OpenGLMatrix bridgeRedFrontLocationOnField = OpenGLMatrix
-
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
-                .multiplied(Orientation.getRotationMatrix(
-
-                        AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 0, 60, 0));
-        blueTarget2.setLocation(bridgeRedFrontLocationOnField);
-        RobotLog.ii(TAG, "Bridge Red Front =%s", format(bridgeRedFrontLocationOnField));
 
         OpenGLMatrix bridgeBlueRearLocationOnField = OpenGLMatrix
 
@@ -395,9 +351,6 @@ public class RedBuildAuto extends BaseOpMode {
             fl.setPower(-correction.x - correction.y);
             br.setPower(-correction.x - correction.y);
             bl.setPower(-correction.x + correction.y);
-
-
-
 
             /**
              * Provide feedback as to where the robot was last located (if we know).

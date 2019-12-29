@@ -316,7 +316,7 @@ public class BlueBuildAuto extends BaseOpMode {
             }
             //drive up to site
             if(stage == 0){
-                homer.setTarget(-596.9,1193.8);
+                homer.setTarget(-825.5, 1193.8);
             }
 
             //latch on

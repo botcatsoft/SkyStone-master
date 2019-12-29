@@ -16,7 +16,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
+import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 
 import java.util.ArrayList;
@@ -298,12 +300,10 @@ public class RedBlockAuto extends BaseOpMode {
 
         /** Start tracking the data sets we care about. */
         int stage = 0;
+        Drive homer = new Drive();
         skystone.activate();
 
         int loop = 0;
-
-
-
 
         while (opModeIsActive()) {
             for (VuforiaTrackable trackable : allTrackables) {
@@ -319,98 +319,54 @@ public class RedBlockAuto extends BaseOpMode {
                     lastLocation = robotLocationTransform;
                 }
             }
-
+            //drive up to block
             if(stage == 0){
-                fl.setPower(-1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(-1);
-                if(lastLocation != null && lastLocation.get(0,0) > (mmFTCFieldWidth/2) - 949.325){
-                    stage++;
-                    //wait(500);
-                }
+                homer.setTarget(825.5,-696.38 + 228.6*loop);
             }
+
+            //latch on
             if(stage == 1){
-                clawServo.setPosition(0);
+              //grab block
             }
-        }
 
+            //pull block
             if(stage == 2){
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation.get(0,1) < (-mmFTCFieldWidth/2)+ 474.6625){
-                    stage++;
-                }
+                homer.setTarget(1422.4,696.38 + 228.6*loop);
             }
 
+            //unlatch
             if(stage == 3){
-                fl.setPower(1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(1);
-                if(lastLocation.get(0,1) < (mmFTCFieldWidth/2)- 596.9){
-                    stage++;
-                }
+                homer.setTarget(1422.4,1193.8 + 228.6*loop);
+               //move up to build site
             }
+
+            //drive towards bridge past site
             if(stage == 4){
-                fl.setPower(-1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(-1);
-                if(lastLocation.get(0,0) < (mmFTCFieldWidth/2) - 949.325){
-                    stage++;
-                }
+                //let go of block
             }
 
             if(stage == 5){
-                clawServo.setPosition(0.82);
-
+                homer.setTarget(1422.4,-696.38 + 228.6*loop);
+               //move back down
             }
             if(stage == 6){
-                flipServo.setPosition(0.5);
-                flipServo.setPosition(1.0);
+              stage = 0;
+              loop++;
+            }
 
-            if(stage == 7){
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation.get(0,0) < (mmFTCFieldWidth/2)- 474.6625){
-                    stage++;
-                }
+            if(homer.atTarget()){
+                stage++;
             }
-                if(stage == 8) {
-                    clawServo.setPosition(0);
-                }
-            if(stage == 9){
-                fl.setPower(1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(1);
-                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 1193.8 - 203.2 * loop){
-                    stage++;
-                }
-            }
-            if(stage == 10){
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if(lastLocation.get(0,1) > (mmFTCFieldWidth/2)- 228.6){
-                    stage++;
-                }
-            }
-                if(stage == 11) {
-                    clawServo.setPosition(0.82);
-                    stage = 0;
-                    loop++;
-                }
 
+            Vector2d correction;
+            Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+            correction = homer.drive(currentPosition, 1);
+
+            fr.setPower(-correction.x + correction.y);
+            fl.setPower(-correction.x - correction.y);
+            br.setPower(-correction.x - correction.y);
+            bl.setPower(-correction.x + correction.y);
         }
-
-
             /**
              * Provide feedback as to where the robot was last located (if we know).
              */

@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 
 import java.util.ArrayList;
@@ -263,6 +264,7 @@ public class BlueBlockAuto extends BaseOpMode {
 
 
         int stage = 0;
+        Drive homer = new Drive();
         skystone.activate();
 
         int loop = 0;
@@ -278,99 +280,34 @@ public class BlueBlockAuto extends BaseOpMode {
                 }
             }
             if (stage == 0) {
-                fl.setPower(-1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(-1);
-                if (lastLocation != null && lastLocation.get(0, 0) < (-mmFTCFieldWidth / 2) + 949.325) {
-                    stage++;
-                    //wait(500);
+                homer.setTarget(-825.5 - (loop * 198.97), -696.38);
+                    //go to block
                 }
             }
             if (stage == 1) {
-                clawServo.setPosition(0);
+                //grab_block
             }
-
 
             if (stage == 2) {
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if (lastLocation.get(0, 0) > (-mmFTCFieldWidth / 2) + 474.6625) {
-                    stage++;
-                }
-            }
+                homer.setTarget(-1422.4, -696.38);
+            } //back up
 
             if (stage == 3) {
-                fl.setPower(-1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(-1);
-                if (lastLocation.get(0, 1) < (mmFTCFieldWidth / 2) - 596.9) {
-                    stage++;
-                }
-            }
+                homer.setTarget(-1422.4, 1193.8);
+            } //move to build site
 
             if (stage == 4) {
-                fl.setPower(-1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(-1);
-                if (lastLocation.get(0, 0) < (-mmFTCFieldWidth / 2) + 949.325) {
-                    stage++;
-                }
+                //let go of block
             }
 
             if (stage == 5) {
-                clawServo.setPosition(0.82);
-            }
+                homer.setTarget(-1422.4, -696.38);
+            }//return to alliance side
+
             if (stage == 6) {
-                flipServo.setPosition(0.5);
-                flipServo.setPosition(1.0);
+              stage = 0;
+              loop++;
             }
-            if (stage == 7) {
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if (lastLocation.get(0, 1) > (-mmFTCFieldWidth / 2) + 474.6625) {
-                    stage++;
-                }
-            }
-            if (stage == 8) {
-                clawServo.setPosition(0);
-
-            }
-            if (stage == 9) {
-                fl.setPower(1);
-                bl.setPower(-1);
-                fr.setPower(-1);
-                br.setPower(1);
-                if (lastLocation.get(0, 1) > (-mmFTCFieldWidth / 2) + 1193.8 - 203.2 * loop) {
-                    stage++;
-                }
-            }
-            if (stage == 10) {
-                fl.setPower(1);
-                bl.setPower(1);
-                fr.setPower(1);
-                br.setPower(1);
-                if (lastLocation.get(0, 0) > (-mmFTCFieldWidth / 2) + 228.6) {
-                    stage++;
-                }
-            }
-            if (stage == 11) {
-                clawServo.setPosition(0.82);
-                stage = 0;
-                loop++;
-            }
-            if(loop == 6){
-                //drive to center line
-            }
-
-
-
             /**
              * Provide feedback as to where the robot was last located (if we know).
              */
@@ -382,7 +319,7 @@ public class BlueBlockAuto extends BaseOpMode {
             }
             telemetry.update();
         }
-    }
+
 
 
     /**
