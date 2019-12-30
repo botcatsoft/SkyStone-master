@@ -10,6 +10,7 @@ public class Drive {
 
     public double kp;
     public double kd;
+    public double targetAngle = 0;
 
     Vector2d errorVector = new Vector2d(0,0);
     Vector2d targetVector = new Vector2d(0,0);
@@ -50,7 +51,20 @@ public class Drive {
 
         targetVector.x = x;
         targetVector.y = y;
+
     }
+
+    public void setTarget(double x, double y, double angle){
+
+        targetVector.x = x;
+        targetVector.y = y;
+        targetAngle = angle;
+    }
+
+    public double getAngle(){
+        return targetAngle;
+    }
+    
     public boolean atTarget() {
         return (errorVector.getMagnitude() < 10);
 

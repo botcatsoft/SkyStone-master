@@ -22,6 +22,8 @@ import org.firstinspires.ftc.teamcode.math.Vector2d;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
+
 @Autonomous(name="RedBuildAuto", group ="Concept")
 public class RedBuildAuto extends BaseOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
@@ -346,11 +348,16 @@ public class RedBuildAuto extends BaseOpMode {
             Vector2d correction;
             Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
             correction = homer.drive(currentPosition, 1);
+            Vector2d correctionWithAngle = rotate(correction, lastLocation.get(0,3));
+            //this might be wrong, we didn't test it yet
+            double rot = (homer.getAngle() - lastLocation.get(0,3))/ 360; //might be wrong variable
 
-            fr.setPower(-correction.x + correction.y);
-            fl.setPower(-correction.x - correction.y);
-            br.setPower(-correction.x - correction.y);
-            bl.setPower(-correction.x + correction.y);
+
+
+            fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+            fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
+            br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
+            bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
 
             /**
              * Provide feedback as to where the robot was last located (if we know).

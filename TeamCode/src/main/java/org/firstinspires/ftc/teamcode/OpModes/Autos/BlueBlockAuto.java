@@ -18,9 +18,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
+import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
 @Autonomous(name="BlueBlockAuto", group ="Concept")
 public class BlueBlockAuto extends BaseOpMode {
@@ -280,7 +283,7 @@ public class BlueBlockAuto extends BaseOpMode {
                 }
             }
             if (stage == 0) {
-                homer.setTarget(-825.5, -696.38 - (loop * 198.97));
+                homer.setTarget(-825.5, -696.38 - (loop * 198.97), 90);
                     //go to block
                 }
             }
@@ -308,9 +311,27 @@ public class BlueBlockAuto extends BaseOpMode {
               stage = 0;
               loop++;
             }
+
+            if(homer.atTarget()){
+                stage++;
+            }
+
+            Vector2d correction;
+            Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+            correction = homer.drive(currentPosition, 1);
+            Vector2d correctionWithAngle = rotate(correction, lastLocation.get(0,3));
+            //this might be wrong, we didn't test it yet
+            double rot = (homer.getAngle() - lastLocation.get(0,3))/ 360; //might be wrong variable
+
+            fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+            fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
+            br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
+            bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+
             /**
              * Provide feedback as to where the robot was last located (if we know).
              */
+
             if (lastLocation != null) {
                 //  RobotLog.vv(TAG, "robot=%s", format(lastLocation));
                 telemetry.addData("Pos", format(lastLocation));
