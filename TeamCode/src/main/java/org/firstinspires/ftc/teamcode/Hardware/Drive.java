@@ -64,6 +64,18 @@ public class Drive {
     public double getAngle(){
         return targetAngle;
     }
+
+    public double getkp(){
+        return kp;
+    }
+
+    public double getkd(){
+        return kd;
+    }
+
+    public void setkp(double newKp) { kp = newKp; }
+
+    public void setkd(double newKd) { kd = newKd; }
     
     public boolean atTarget() {
         return (errorVector.getMagnitude() < 10);

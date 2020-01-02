@@ -26,6 +26,18 @@ public class Arm {
         target = targetEncoderValue;
     }
 
+    public double getkp(){
+        return kp;
+    }
+
+    public double getkd(){
+        return kd;
+    }
+
+    public void setkp(double newKp) { kp = newKp; }
+
+    public void setkd(double newKd) { kd = newKd; }
+
     public boolean atTarget() {
         return (error < 0.01);
     }
