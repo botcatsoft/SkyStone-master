@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.Hardware.Arm;
 import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 import org.firstinspires.ftc.teamcode.math.Vector2d;
@@ -268,6 +269,7 @@ public class BlueBlockAuto extends BaseOpMode {
 
         int stage = 0;
         Drive homer = new Drive();
+        Arm intake = new Arm();
         skystone.activate();
 
         int loop = 0;
@@ -288,6 +290,7 @@ public class BlueBlockAuto extends BaseOpMode {
                 }
             }
             if (stage == 1) {
+              intake.setTarget(90);
                 //grab_block
             }
 
@@ -300,6 +303,7 @@ public class BlueBlockAuto extends BaseOpMode {
             } //move to build site
 
             if (stage == 4) {
+              intake.setTarget(0);
                 //let go of block
             }
 
@@ -312,7 +316,7 @@ public class BlueBlockAuto extends BaseOpMode {
               loop++;
             }
 
-            if(homer.atTarget()){
+            if(homer.atTarget() && intake.atTarget()){
                 stage++;
             }
 
@@ -327,6 +331,10 @@ public class BlueBlockAuto extends BaseOpMode {
             fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
             br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
             bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+
+
+            double armSpeed = intake.move(clawMotor.getCurrentPosition());
+            clawMotor.setPower(armSpeed);
 
             /**
              * Provide feedback as to where the robot was last located (if we know).

@@ -8,6 +8,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
         import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
         import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
         import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+        import org.firstinspires.ftc.teamcode.Hardware.Arm;
         import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
         import org.firstinspires.ftc.teamcode.math.Vector2d;
 
@@ -15,12 +16,9 @@ package org.firstinspires.ftc.teamcode.OpModes;
 @TeleOp(name = "Mechanum")public class BasicMechanumTeleOp extends BaseOpMode {
     public void runOpMode() {
         //Variables
-        double power = 0;
-        double direction;
+
         boolean rightBumper = true;
         boolean leftBumper = true;
-        boolean tooHigh;
-        boolean tooLow;
         boolean clawDebounce = false;
         boolean flippyDebounce = false;
         double armTarget;
@@ -62,79 +60,21 @@ package org.firstinspires.ftc.teamcode.OpModes;
         param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         imu.initialize(param);
 
-        /*Set Servo Values Not currently used
-        currentServoPosition = ServoClaw.getPosition();
-        if (currentServoPosition != 5){
-            ServoClaw.setPosition(5);
-        }*/
+
         clawServo.setPosition(0.82);
         flipServo.setPosition(1);
+        
         waitForStart();
+        Arm intake = new Arm();
 
         while (opModeIsActive()) {
 
             Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
             //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
 
-            //Change Power and Direction Values
-            power = Math.sqrt(Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2));
-            direction = Math.atan(gamepad1.left_stick_y / gamepad1.left_stick_x); //+ angles.firstAngle;
-            System.out.println(direction);
 
-            //checks if arm is at its limits so that we don't push it further than we want to
 
-//
-//
-//            //Y-Axis JoyStick
-//            if (gamepad1.left_stick_y > 0) {
-//                //Forward
-//                frPower = power * (Math.sin(direction));
-//                flPower = power * (Math.sin(direction));
-//                brPower = power * (Math.sin(direction));
-//                blPower = power * (Math.sin(direction));
-//            } else {
-//                //BackWards
-//                frPower = power * (Math.sin(direction));
-//                flPower = power * (Math.sin(direction));
-//                brPower = power * (Math.sin(direction));
-//                blPower = power * (Math.sin(direction));
-//            }
-//            //X-Axis JoyStick
-//            if (gamepad1.left_stick_x > 0) {
-//                //Right
-//                frPower = frPower + power * (Math.cos(direction));
-//                flPower = flPower + -power * (Math.cos(direction));
-//                brPower = brPower + -power * (Math.cos(direction));
-//                blPower = blPower + power * (Math.cos(direction));
-//            } else{
-//                //Left
-//                frPower = frPower + -power * (Math.cos(direction));
-//                flPower = flPower + power * (Math.cos(direction));
-//                brPower = brPower + power * (Math.cos(direction));
-//                blPower = blPower + -power * (Math.cos(direction));
-//            }
-//
-//            //JoyStick to Rotate Robot
-//            //if (gamepad1.right_stick_x > 0) {
-//                //Rotate Right
-//            //frPower = frPower - gamepad1.right_stick_x;
-//            //flPower = flPower + gamepad1.right_stick_x;
-//            //brPower = brPower - gamepad1.right_stick_x;
-//            //blPower = blPower + gamepad1.right_stick_x;
-//            if(Math.abs(gamepad1.right_stick_x) > 0.1){
-//                frPower = - gamepad1.right_stick_x;
-//                flPower = gamepad1.right_stick_x;
-//                brPower = - gamepad1.right_stick_x;
-//                blPower = gamepad1.right_stick_x;
-//            }
-//            //} //else{
-//                //counter clockwise
-//                //frPower = frPower + gamepad1.right_stick_x;
-//                //flPower = flPower - gamepad1.right_stick_x;
-//                //brPower = brPower + gamepad1.right_stick_x;
-//                //blPower = blPower - gamepad1.right_stick_x;
-//            //}
-//
+
             //toggles rightbumper variable
             if (gamepad1.right_bumper && clawDebounce == false) {
                 if (rightBumper == false) {
@@ -167,13 +107,6 @@ package org.firstinspires.ftc.teamcode.OpModes;
           correction = kp * error + kd * derivative;
           clawMotor.setPower(correction);
 
-
-
-
-
-
-
-
             //flippy variable switch
             if (gamepad1.left_bumper && flippyDebounce == false) {
                 if (!leftBumper) {
@@ -196,17 +129,6 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 flipServo.setPosition(0.5); // up
                 //MotorStuff
             }
-//
-//                //Set Motor Powers
-//                fr.setPower(frPower);
-//                fl.setPower(flPower);
-//                br.setPower(brPower);
-//                bl.setPower(blPower);
-//
-//                //fr.setPower(1);
-//                //fl.setPower(1);
-//                //br.setPower(1);
-//                //bl.setPower(1);
 
             Vector2d input = new Vector2d(gamepad1.left_stick_y/2, gamepad1.left_stick_x/2);
             double rot = gamepad1.right_trigger - gamepad1.left_trigger;
@@ -215,19 +137,22 @@ package org.firstinspires.ftc.teamcode.OpModes;
             bl.setPower(input.x - input.y + rot);
             br.setPower(input.x + input.y - rot);
 
+            double armSpeed = intake.move(clawMotor.getCurrentPosition());
+            clawMotor.setPower(armSpeed);
+            
+            
 
-                telemetry.addData("Direction: ", direction);
-                telemetry.addData("frPower: ", frPower);
-                telemetry.addData("flPower: ", flPower);
-                telemetry.addData("brPower: ", brPower);
-                telemetry.addData("blPower: ", blPower);
-                //telemetry.addData("Claw Encoder: ", clawMotor.getCurrentPosition());
-                //telemetry.addData("tooHigh: ", tooHigh);
-                //telemetry.addData("tooLow: ", tooLow);
-                telemetry.addData("rightBumper: ", rightBumper);
-                telemetry.addData("spin force: ", gamepad1.right_stick_x);
-                telemetry.addData("claw Servo pos: ", clawServo.getPosition());
-                telemetry.update();
+
+            telemetry.addData("frPower: ", frPower);
+            telemetry.addData("flPower: ", flPower);
+            telemetry.addData("brPower: ", brPower);
+            telemetry.addData("blPower: ", blPower);
+            telemetry.addData("Claw Encoder: ", clawMotor.getCurrentPosition());
+            telemetry.addData("rightBumper: ", rightBumper);
+            telemetry.addData("spin force: ", gamepad1.right_stick_x);
+            telemetry.addData("claw Servo pos: ", clawServo.getPosition());
+            telemetry.update();
+
             }
         }
     }

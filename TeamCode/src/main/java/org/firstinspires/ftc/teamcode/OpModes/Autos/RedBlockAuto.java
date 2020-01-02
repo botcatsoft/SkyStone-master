@@ -367,7 +367,7 @@ public class RedBlockAuto extends BaseOpMode {
             }
 
             //Moves on to the next stage
-            if(homer.atTarget()){
+            if(homer.atTarget() && intake.atTarget()){
                 stage++;
             }
 
