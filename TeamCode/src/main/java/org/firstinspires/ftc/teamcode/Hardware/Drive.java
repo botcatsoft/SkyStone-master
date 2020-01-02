@@ -44,7 +44,7 @@ public class Drive {
         lastErrorVector = normalizedErrorVector;
         return correctionVector;
 
-        }
+    }
 
 //target setter
     public void setTarget(double x, double y){

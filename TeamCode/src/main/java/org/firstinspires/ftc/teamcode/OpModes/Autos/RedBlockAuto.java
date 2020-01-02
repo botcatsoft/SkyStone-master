@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.Hardware.Arm;
 import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 import org.firstinspires.ftc.teamcode.math.Vector2d;
@@ -55,6 +56,9 @@ public class RedBlockAuto extends BaseOpMode {
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
          * If no camera monitor is desired, use the parameterless constructor instead (commented out below).
@@ -303,6 +307,7 @@ public class RedBlockAuto extends BaseOpMode {
         /** Start tracking the data sets we care about. */
         int stage = 0;
         Drive homer = new Drive();
+        Arm intake = new Arm();
         skystone.activate();
 
         int loop = 0;
@@ -326,9 +331,10 @@ public class RedBlockAuto extends BaseOpMode {
                 homer.setTarget(825.5,-696.38 + 228.6*loop);
             }
 
-            //latch on
+            //grab block
             if(stage == 1){
               //grab block
+                intake.setTarget(90);
             }
 
             //pull block
@@ -336,26 +342,31 @@ public class RedBlockAuto extends BaseOpMode {
                 homer.setTarget(1422.4,696.38 + 228.6*loop);
             }
 
-            //unlatch
+            //move up to build site
             if(stage == 3){
                 homer.setTarget(1422.4,1193.8);
-               //move up to build site
+
             }
 
-            //drive towards bridge past site
+            //let go of block
             if(stage == 4){
                 //let go of block
+                intake.setTarget(0);
             }
 
+            //move back down
             if(stage == 5){
                 homer.setTarget(1422.4,-696.38);
-               //move back down
+
             }
+
+            //Moves on to next loop
             if(stage == 6){
               stage = 0;
               loop++;
             }
 
+            //Moves on to the next stage
             if(homer.atTarget()){
                 stage++;
             }
@@ -371,6 +382,10 @@ public class RedBlockAuto extends BaseOpMode {
             fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
             br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
             bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+
+
+            double armSpeed = intake.move(clawMotor.getCurrentPosition());
+            clawMotor.setPower(armSpeed);
         }
             /**
              * Provide feedback as to where the robot was last located (if we know).
