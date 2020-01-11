@@ -37,6 +37,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
         Servo buildPlateServo = hardwareMap.servo.get("BuildPlate_servo");
         Servo buildPlateServo2 = hardwareMap.servo.get("Build_Plate_servo");
 
+        buildPlateServo.setPosition(0.4);
+
 
 
         //Motors
@@ -51,6 +53,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
         param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         imu.initialize(param);
+        buildPlateServo.setPosition(0.4);
 
 
         waitForStart();
@@ -72,17 +75,17 @@ package org.firstinspires.ftc.teamcode.OpModes;
             //arm control
             if (gamepad1.a) {
                 //position one
-                intake.setTarget(1);
+                intake.setTarget(-1);
             } else if (gamepad1.b) {
                 //postition two
                 intake.setTarget(105);
 
             } else if (gamepad1.y) {
                 //position three
-                intake.setTarget(180);
+                intake.setTarget(1);
             }
             intake.setkd(0.5);
-            intake.setkp(0.4);
+            intake.setkp(0.1);
 
             //motor setting for drivetrain
             Vector2d input = new Vector2d(gamepad1.left_stick_y / 2, gamepad1.left_stick_x / 2);
@@ -106,11 +109,11 @@ package org.firstinspires.ftc.teamcode.OpModes;
             }
 
             if (rightArmB) {
-                buildPlateServo.setPosition(1);
+                buildPlateServo.setPosition(.4);
                 buildPlateServo2.setPosition(1);
 
             } else {
-                buildPlateServo.setPosition(0.4);
+                buildPlateServo.setPosition(1);
                 buildPlateServo2.setPosition(0.6);
             }
 

@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -25,7 +28,7 @@ import java.util.List;
 import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
 @Autonomous(name="BlueBuildAuto", group ="Concept")
-public class BlueBuildAuto extends BaseOpMode {
+public class BlueBuildAuto extends LinearOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -40,8 +43,14 @@ public class BlueBuildAuto extends BaseOpMode {
 
 
         //Set Motors
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.REVERSE);
+        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
+        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
+        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
+        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
+
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -50,6 +59,14 @@ public class BlueBuildAuto extends BaseOpMode {
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        CRServo handServo = hardwareMap.crservo.get("hand_servo");
+        Servo buildPlateServo = hardwareMap.servo.get("BuildPlate_servo");
+        Servo buildPlateServo2 = hardwareMap.servo.get("Build_Plate_servo");
+
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
          * If no camera monitor is desired, use the parameterless constructor instead (commented out below).
@@ -297,11 +314,16 @@ public class BlueBuildAuto extends BaseOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
+
+
         waitForStart();
 
         /** Start tracking the data sets we care about. */
         int stage = 0;
         Drive homer = new Drive();
+        homer.setkd(0.5);
+        homer.setkp(0.4);
+
         skystone.activate();
 
         while (opModeIsActive()) {
@@ -325,7 +347,8 @@ public class BlueBuildAuto extends BaseOpMode {
 
             //latch on
             if(stage == 1){
-                //latch on
+                buildPlateServo.setPosition(1);
+                buildPlateServo2.setPosition(0.6);
             }
 
             //pull site back
@@ -335,7 +358,8 @@ public class BlueBuildAuto extends BaseOpMode {
 
             //unlatch
             if(stage == 3){
-                //unlatch
+                buildPlateServo.setPosition(0.4);
+                buildPlateServo2.setPosition(1);
             }
 
             //drive towards bridge past site
