@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -27,7 +29,7 @@ import java.util.List;
 import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
 @Autonomous(name="BlueBlockAuto", group ="Concept")
-public class BlueBlockAuto extends BaseOpMode {
+public class BlueBlockAuto extends LinearOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -41,11 +43,12 @@ public class BlueBlockAuto extends BaseOpMode {
     @Override public void runOpMode() {
 
 
-        Servo flipServo = hardwareMap.servo.get("flippy");
-        Servo clawServo = hardwareMap.servo.get("claw_servo");
+        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
+        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
+        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
+        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
-
-        //Set Motors
         fr.setDirection(DcMotor.Direction.REVERSE);
         br.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -56,6 +59,13 @@ public class BlueBlockAuto extends BaseOpMode {
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        CRServo handServo = hardwareMap.crservo.get("hand_servo");
+        Servo buildPlateServo = hardwareMap.servo.get("BuildPlate_servo");
+        Servo buildPlateServo2 = hardwareMap.servo.get("Build_Plate_servo");
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
          * If no camera monitor is desired, use the parameterless constructor instead (commented out below).

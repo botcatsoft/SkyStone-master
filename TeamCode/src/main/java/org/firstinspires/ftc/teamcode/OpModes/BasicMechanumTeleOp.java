@@ -73,7 +73,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
             }
 
             //arm control
-            if (gamepad1.a) {
+            /*if (gamepad1.a) {
                 //position one
                 intake.setTarget(-1);
             } else if (gamepad1.b) {
@@ -85,19 +85,20 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 intake.setTarget(1);
             }
             intake.setkd(0.5);
-            intake.setkp(0.1);
+            intake.setkp(0.1);*/
 
             //motor setting for drivetrain
             Vector2d input = new Vector2d(gamepad1.left_stick_y / 2, gamepad1.left_stick_x / 2);
             double rot = gamepad1.right_trigger - gamepad1.left_trigger;
-            fl.setPower(input.x + input.y + rot);
-            fr.setPower(input.x - input.y - rot);
-            bl.setPower(input.x - input.y + rot);
-            br.setPower(input.x + input.y - rot);
+            fl.setPower(input.x - input.y + rot);
+            fr.setPower(input.x + input.y - rot);
+            bl.setPower(input.x + input.y + rot);
+            br.setPower(input.x - input.y - rot);
 
             //motor setting for arm
-            double armSpeed = intake.move(clawMotor.getCurrentPosition());
-            clawMotor.setPower(armSpeed);
+            //double armSpeed = intake.move(clawMotor.getCurrentPosition());
+            //clawMotor.setPower(armSpeed);
+            clawMotor.setPower(gamepad1.right_stick_y);
 
             //toggles Build Plate Grabbers
             if (gamepad1.x && !BaseGrabberDebounce) {
