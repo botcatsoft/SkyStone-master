@@ -15,11 +15,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         br.setDirection(DcMotor.Direction.REVERSE);
         fl.setDirection(DcMotor.Direction.FORWARD);
         bl.setDirection(DcMotor.Direction.FORWARD);
+        waitForStart();
 
-        fl.setPower(1);
-        fr.setPower(1);
-        bl.setPower(1);
-        br.setPower(1);
+        while(opModeIsActive()){
+            fl.setPower(1);
+            fr.setPower(1);
+            bl.setPower(1);
+            br.setPower(1);
+        }
 
     }
 }
