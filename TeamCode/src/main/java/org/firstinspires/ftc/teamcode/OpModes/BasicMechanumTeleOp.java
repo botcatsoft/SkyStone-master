@@ -68,14 +68,14 @@ package org.firstinspires.ftc.teamcode.OpModes;
             }
 
             //arm control
-            if (gamepad1.y) {
+            if (gamepad1.a) {
                 //position one
                 intake.move(1);
             } else if (gamepad1.b) {
                 //postition two
                 intake.move(2);
 
-            } else if (gamepad1.a) {
+            } else if (gamepad1.y) {
                 //position three
                 intake.move(3);
             }
