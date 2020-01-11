@@ -120,22 +120,23 @@ public class RedBuildAuto extends BaseOpMode {
         float mmFTCFieldWidth  = (12*12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
 
 
-        OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
+       //set the position and rotation of each trackable and the phone relative to the center of the robot
+       OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
 
                 .translation(mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 90, 0));
+                        AngleUnit.DEGREES, 0, 90, 0));
         redTarget1.setLocation(redTarget1LocationOnField);
         RobotLog.ii(TAG, "Red Target 1 =%s", format(redTarget1LocationOnField));
 
 
         OpenGLMatrix redTarget2LocationOnField = OpenGLMatrix
-                .translation(mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
+                 .translation(mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 90, 0));
+                        AngleUnit.DEGREES, -90, 90, 0));
         redTarget2.setLocation(redTarget2LocationOnField);
         RobotLog.ii(TAG, "Red Target 2 =%s", format(redTarget2LocationOnField));
 
@@ -146,21 +147,20 @@ public class RedBuildAuto extends BaseOpMode {
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 180, 180, 0));
+                        AngleUnit.DEGREES, 180, 90, 0));
         rearTarget1.setLocation(rearTarget1LocationOnField);
         RobotLog.ii(TAG, "Rear Target 1 =%s", format(rearTarget1LocationOnField));
 
 
         OpenGLMatrix rearTarget2LocationOnField = OpenGLMatrix
 
-
                 .translation((mmFTCFieldWidth/2) - 914.4f, mmFTCFieldWidth/2, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 180, 0, 0));
+                        AngleUnit.DEGREES, 180, 90, 0));
         rearTarget2.setLocation(rearTarget2LocationOnField);
-        RobotLog.ii(TAG, "Rear Target 1 =%s", format(rearTarget2LocationOnField));
+        RobotLog.ii(TAG, "Rear Target 2 =%s", format(rearTarget2LocationOnField));
 
 
         OpenGLMatrix frontTarget1LocationOnField = OpenGLMatrix
@@ -169,7 +169,7 @@ public class RedBuildAuto extends BaseOpMode {
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 0, 0));
+                        AngleUnit.DEGREES, 90, -90, 0));
         frontTarget1.setLocation(frontTarget1LocationOnField);
         RobotLog.ii(TAG, "Front Target 1 =%s", format(frontTarget1LocationOnField));
 
@@ -180,11 +180,9 @@ public class RedBuildAuto extends BaseOpMode {
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 90, 0, 0));
+                        AngleUnit.DEGREES, 90, -90, 0));
         frontTarget2.setLocation(frontTarget2LocationOnField);
-        RobotLog.ii(TAG, "Front Target 1 =%s", format(frontTarget2LocationOnField));
-
-
+        RobotLog.ii(TAG, "Front Target 2 =%s", format(frontTarget2LocationOnField));
 
 
         OpenGLMatrix blueTarget1LocationOnField = OpenGLMatrix
@@ -193,7 +191,7 @@ public class RedBuildAuto extends BaseOpMode {
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 0, 0, 90));
+                        AngleUnit.DEGREES, -90, 90, 0));
         blueTarget1.setLocation(blueTarget1LocationOnField);
         RobotLog.ii(TAG, "Blue Target 1 =%s", format(blueTarget1LocationOnField));
 
@@ -204,9 +202,9 @@ public class RedBuildAuto extends BaseOpMode {
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
-                        AngleUnit.DEGREES, 0, 0, 90));
+                        AngleUnit.DEGREES, -90, 90, 0));
         blueTarget2.setLocation(blueTarget2LocationOnField);
-        RobotLog.ii(TAG, "Blue Target 2 =%s", format(frontTarget1LocationOnField));
+        RobotLog.ii(TAG, "Blue Target 2 =%s", format(blueTarget2LocationOnField));
 
         OpenGLMatrix bridgeBlueRearLocationOnField = OpenGLMatrix
 
@@ -248,11 +246,13 @@ public class RedBuildAuto extends BaseOpMode {
         blueTarget2.setLocation(bridgeRedFrontLocationOnField);
         RobotLog.ii(TAG, "Bridge Red Front =%s", format(bridgeRedFrontLocationOnField));
 
+
+        //We need to describe where on the bot the phone is
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation(mmBotWidth/4,0,0)
+                .translation(-7.25f,0,13.5f)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.YZY,
-                        AngleUnit.DEGREES, -180, 0, 0));
+                        AngleUnit.DEGREES, 180, 90, 0));
         RobotLog.ii(TAG, "phone=%s", format(phoneLocationOnRobot));
 
         //Wall Target listeners

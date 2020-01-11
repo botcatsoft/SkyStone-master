@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Testers;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -18,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp(name="VuforiaTest", group = "Concept")
-public class VuforiaTester extends BaseOpMode{
+public class VuforiaTester extends LinearOpMode {
 
     public static final String TAG = "Vuforia Navigation Sample";
 
@@ -27,6 +30,15 @@ public class VuforiaTester extends BaseOpMode{
     VuforiaLocalizer vuforia;
 
     @Override public void runOpMode() {
+
+        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
+        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
+        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
+        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
+
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters param = new BNO055IMU.Parameters();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -44,40 +56,40 @@ public class VuforiaTester extends BaseOpMode{
 
 
         //Initialising all trackables
-        VuforiaTrackable bridgeBlueRear  = skystone.get(2);
+        VuforiaTrackable bridgeBlueRear  = skystone.get(1);
         bridgeBlueRear.setName("BridgeBlueRear");
 
-        VuforiaTrackable bridgeRedRear  = skystone.get(3);
+        VuforiaTrackable bridgeRedRear  = skystone.get(2);
         bridgeRedRear.setName("BridgeRedRear");
 
         VuforiaTrackable bridgeBlueFront  = skystone.get(4);
         bridgeBlueFront.setName("BridgeBlueFront");
 
-        VuforiaTrackable bridgeRedFront  = skystone.get(5);
+        VuforiaTrackable bridgeRedFront  = skystone.get(3);
         bridgeRedFront.setName("BridgeRedFront");
 
-        VuforiaTrackable redTarget1 = skystone.get(6);
+        VuforiaTrackable redTarget1 = skystone.get(5);
         redTarget1.setName("RedPerimeterTgt1");
 
-        VuforiaTrackable redTarget2  = skystone.get(7);
+        VuforiaTrackable redTarget2  = skystone.get(6);
         redTarget2.setName("RedPerimeterTgt2");
 
-        VuforiaTrackable frontTarget1  = skystone.get(8);
+        VuforiaTrackable frontTarget1  = skystone.get(7);
         frontTarget1.setName("FrontPerimeterTgt1");
 
-        VuforiaTrackable frontTarget2  = skystone.get(9);
+        VuforiaTrackable frontTarget2  = skystone.get(8);
         frontTarget2.setName("FrontPerimeterTgt2");
 
-        VuforiaTrackable blueTarget1  = skystone.get(10);
+        VuforiaTrackable blueTarget1  = skystone.get(9);
         blueTarget1.setName("BluePerimeterTgt1");
 
-        VuforiaTrackable blueTarget2  = skystone.get(11);
+        VuforiaTrackable blueTarget2  = skystone.get(10);
         blueTarget2.setName("BluePerimeterTgt2");
 
-        VuforiaTrackable rearTarget1  = skystone.get(12);
+        VuforiaTrackable rearTarget1  = skystone.get(11);
         rearTarget1.setName("RearPerimeterTgt1");
 
-        VuforiaTrackable rearTarget2  = skystone.get(13);
+        VuforiaTrackable rearTarget2  = skystone.get(12);
         rearTarget2.setName("RearPerimeterTgt2");
 
 
