@@ -2,8 +2,11 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
         import com.qualcomm.hardware.bosch.BNO055IMU;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+        import com.qualcomm.robotcore.hardware.CRServo;
         import com.qualcomm.robotcore.hardware.DcMotor;
+
         import com.qualcomm.robotcore.hardware.Servo;
+
         import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
         import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
         import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -18,9 +21,11 @@ package org.firstinspires.ftc.teamcode.OpModes;
         //Variables
 
         boolean rightBumper = true;
-        boolean leftBumper = true;
+        boolean RightArmB = true;
+        boolean LeftArmB = true;
         boolean clawDebounce = false;
-        boolean flippyDebounce = false;
+        /*boolean flippyDebounce = false;*/
+        boolean BaseGrabberDebounce = false;
         double armTarget;
         double error;
         double lastError = 0;
@@ -30,13 +35,15 @@ package org.firstinspires.ftc.teamcode.OpModes;
         double derivative;
 
 
-
-
         clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Servo flipServo = hardwareMap.servo.get("flippy");
-        Servo clawServo = hardwareMap.servo.get("claw_servo");
+        /*Servo flipServo = hardwareMap.servo.get("flippy");*/
+        //Servo clawServo = hardwareMap.servo.get("claw_servo");
+        CRServo handServo = hardwareMap.crservo.get("hand_servo");
+
+        Servo buildPlateServo = hardwareMap.servo.get("BuildPlate_servo");
+        Servo buildPlateServo2 = hardwareMap.servo.get("Build_Plate_servo");
 
         //encoders yay
 
@@ -61,19 +68,10 @@ package org.firstinspires.ftc.teamcode.OpModes;
         imu.initialize(param);
 
 
-        clawServo.setPosition(0.82);
-        flipServo.setPosition(1);
-        
         waitForStart();
         Arm intake = new Arm();
 
         while (opModeIsActive()) {
-
-            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
-            //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
-
-
-
 
             //toggles rightbumper variable
             if (gamepad1.right_bumper && clawDebounce == false) {
@@ -99,60 +97,77 @@ package org.firstinspires.ftc.teamcode.OpModes;
             }
 
 
+            error = armTarget - clawMotor.getCurrentPosition();
+            derivative = error - lastError;
+            correction = kp * error + kd * derivative;
+            clawMotor.setPower(correction);
 
 
+            //hand control
+            if (gamepad1.left_bumper) {
+                handServo.setPower(0.3);
+            } else if (gamepad1.right_bumper) {
+                handServo.setPower(-0.3);
 
-          error = armTarget - clawMotor.getCurrentPosition();
-          derivative = error - lastError;
-          correction = kp * error + kd * derivative;
-          clawMotor.setPower(correction);
+                //arm control
+                if (gamepad1.y) {
+                    //position one
+                    intake.move(1);
+                } else if (gamepad1.b) {
+                    //postition two
+                    intake.move(2);
 
-            //flippy variable switch
-            if (gamepad1.left_bumper && flippyDebounce == false) {
-                if (!leftBumper) {
-                    leftBumper = true;
-
-                } else {
-                    leftBumper = false;
+                } else if (gamepad1.a) {
+                    //position three
+                    intake.move(3);
                 }
-                flippyDebounce = true;
-
-            } else if (gamepad1.left_bumper == false) {
-                flippyDebounce = false;
-            }
-
-            if (leftBumper) {
-                flipServo.setPosition(1.0); //touching mat
-                //MotorStuff
-                //If Arm is Down then go up if pressed
-            } else{
-                flipServo.setPosition(0.5); // up
-                //MotorStuff
-            }
-
-            Vector2d input = new Vector2d(gamepad1.left_stick_y/2, gamepad1.left_stick_x/2);
-            double rot = gamepad1.right_trigger - gamepad1.left_trigger;
-            fl.setPower(input.x + input.y + rot);
-            fr.setPower(input.x - input.y - rot);
-            bl.setPower(input.x - input.y + rot);
-            br.setPower(input.x + input.y - rot);
-
-            double armSpeed = intake.move(clawMotor.getCurrentPosition());
-            clawMotor.setPower(armSpeed);
-            
-            
 
 
-            telemetry.addData("frPower: ", frPower);
-            telemetry.addData("flPower: ", flPower);
-            telemetry.addData("brPower: ", brPower);
-            telemetry.addData("blPower: ", blPower);
-            telemetry.addData("Claw Encoder: ", clawMotor.getCurrentPosition());
-            telemetry.addData("rightBumper: ", rightBumper);
-            telemetry.addData("spin force: ", gamepad1.right_stick_x);
-            telemetry.addData("claw Servo pos: ", clawServo.getPosition());
-            telemetry.update();
+                Vector2d input = new Vector2d(gamepad1.left_stick_y / 2, gamepad1.left_stick_x / 2);
+                double rot = gamepad1.right_trigger - gamepad1.left_trigger;
+                fl.setPower(input.x + input.y + rot);
+                fr.setPower(input.x - input.y - rot);
+                bl.setPower(input.x - input.y + rot);
+                br.setPower(input.x + input.y - rot);
 
+                double armSpeed = intake.move(clawMotor.getCurrentPosition());
+                clawMotor.setPower(armSpeed);
+
+                //toggles Build Plate Grabbers
+                if (gamepad1.x && BaseGrabberDebounce == false) {
+                    if (RightArmB == false) {
+                        RightArmB = true;
+                    } else {
+                        RightArmB = false;
+                    }
+                    BaseGrabberDebounce = true;
+
+                } else if (gamepad1.x == false) {
+                    BaseGrabberDebounce = false;
+                }
+
+                if (RightArmB) {
+                    buildPlateServo.setPosition(1);
+                } else {
+                    buildPlateServo.setPosition(-1);
+                    if (LeftArmB) {
+                        buildPlateServo.setPosition(-1);
+                    } else {
+                        buildPlateServo.setPosition(1);
+                    }
+
+
+                    telemetry.addData("frPower: ", frPower);
+                    telemetry.addData("flPower: ", flPower);
+                    telemetry.addData("brPower: ", brPower);
+                    telemetry.addData("blPower: ", blPower);
+                    telemetry.addData("Claw Encoder: ", clawMotor.getCurrentPosition());
+                    telemetry.addData("rightBumper: ", rightBumper);
+                    telemetry.addData("spin force: ", gamepad1.right_stick_x);
+
+                    telemetry.update();
+                }
             }
         }
     }
+}

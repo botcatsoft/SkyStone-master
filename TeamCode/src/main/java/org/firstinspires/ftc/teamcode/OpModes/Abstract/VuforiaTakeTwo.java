@@ -253,13 +253,11 @@ public abstract class VuforiaTakeTwo extends BaseOpMode {
 
         //We need to describe where on the bot the phone is
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation(mmBotWidth/4,0,0)
+                .translation(-7.25f,0,13.5f)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.YZY,
-                        AngleUnit.DEGREES, -180, 0, 0));
+                        AngleUnit.DEGREES, 180, 90, 0));
         RobotLog.ii(TAG, "phone=%s", format(phoneLocationOnRobot));
-
-
 
 
         // listeners for wall trackables

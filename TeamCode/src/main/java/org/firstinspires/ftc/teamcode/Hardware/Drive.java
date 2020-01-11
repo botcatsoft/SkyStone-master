@@ -34,11 +34,6 @@ public class Drive {
         derivativeVector = Vector2d.subtract(normalizedErrorVector,lastErrorVector);
         correctionVector = Vector2d.add(Vector2d.multiply(kp, normalizedErrorVector), Vector2d.multiply(kd, derivativeVector));
 
-        //power setters
-        //fr.setPower(speed * (correctionVector.x + correctionVector.y));
-        //fl.setPower(speed * (- correctionVector.x + correctionVector.y));
-        //br.setPower(speed * (- correctionVector.x + correctionVector.y));
-        //bl.setPower(speed * (correctionVector.x + correctionVector.y));
 
         //last error recursivity
         lastErrorVector = normalizedErrorVector;
@@ -47,6 +42,9 @@ public class Drive {
     }
 
 //target setter
+    public void setTarget(double angle){
+        targetAngle = angle;
+    }
     public void setTarget(double x, double y){
 
         targetVector.x = x;
