@@ -18,8 +18,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         waitForStart();
 
         while(opModeIsActive()){
-            fl.setPower(1);
-            fr.setPower(1);
+            fl.setPower(-1);
+            fr.setPower(-1);
             bl.setPower(1);
             br.setPower(1);
         }
