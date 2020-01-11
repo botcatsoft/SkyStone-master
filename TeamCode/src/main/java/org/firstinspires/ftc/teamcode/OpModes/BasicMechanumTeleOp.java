@@ -81,6 +81,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 //position three
                 intake.setTarget(180);
             }
+            intake.setkd(0.5);
+            intake.setkp(0.4);
 
             //motor setting for drivetrain
             Vector2d input = new Vector2d(gamepad1.left_stick_y / 2, gamepad1.left_stick_x / 2);
