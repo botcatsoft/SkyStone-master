@@ -65,19 +65,21 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 handServo.setPower(0.3);
             } else if (gamepad1.right_bumper) {
                 handServo.setPower(-0.3);
+            } else {
+                handServo.setPower(0);
             }
 
             //arm control
             if (gamepad1.a) {
                 //position one
-                intake.move(1);
+                intake.setTarget(1);
             } else if (gamepad1.b) {
                 //postition two
-                intake.move(2);
+                intake.setTarget(105);
 
             } else if (gamepad1.y) {
                 //position three
-                intake.move(3);
+                intake.setTarget(180);
             }
 
             //motor setting for drivetrain
@@ -106,8 +108,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 buildPlateServo2.setPosition(1);
 
             } else {
-                buildPlateServo.setPosition(0.5);
-                buildPlateServo2.setPosition(0.5);
+                buildPlateServo.setPosition(0.4);
+                buildPlateServo2.setPosition(0.6);
             }
 
 
@@ -115,7 +117,14 @@ package org.firstinspires.ftc.teamcode.OpModes;
             telemetry.addData("flPower: ", fl.getPower());
             telemetry.addData("brPower: ", br.getPower());
             telemetry.addData("blPower: ", bl.getPower());
+            telemetry.addData("x: ", gamepad1.x);
+            telemetry.addData("Build Plate Servo", buildPlateServo.getPosition());
+            telemetry.addData("Build Plate Servo2", buildPlateServo2.getPosition());
+            telemetry.addData("Right Bumper: ", gamepad1.right_bumper);
+            telemetry.addData("Left Bumper: ", gamepad1.left_bumper);
+            telemetry.addData("Hand Power: ", handServo.getPower());
             telemetry.addData("Claw Encoder: ", clawMotor.getCurrentPosition());
+            telemetry.addData("Claw Power", clawMotor.getPower());
 
             telemetry.update();
 
