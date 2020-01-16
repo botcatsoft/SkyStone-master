@@ -98,7 +98,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
             //motor setting for arm
             //double armSpeed = intake.move(clawMotor.getCurrentPosition());
             //clawMotor.setPower(armSpeed);
-            clawMotor.setPower(gamepad1.right_stick_y);
+            clawMotor.setPower(gamepad1.right_stick_y / 10);
 
             //toggles Build Plate Grabbers
             if (gamepad1.x && !BaseGrabberDebounce) {
@@ -110,7 +110,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
             }
 
             if (rightArmB) {
-                buildPlateServo.setPosition(.4);
+                buildPlateServo.setPosition(0.4);
                 buildPlateServo2.setPosition(1);
 
             } else {

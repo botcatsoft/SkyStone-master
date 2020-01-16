@@ -1,29 +1,42 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autos;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 
-@Autonomous(name = "ProtoBlueBuild") public class ProtoBlueBuild extends BaseOpMode {
+@Autonomous(name = "ProtoBlueBuild") public class ProtoBlueBuild extends LinearOpMode {
     @Override public void runOpMode() {
       //Variables
       int stage = 0;
 
-        Servo flipServo = hardwareMap.servo.get("flippy");
-        Servo clawServo = hardwareMap.servo.get("claw_servo");
+
+        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
+        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
+        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
+        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
         fr.setDirection(DcMotor.Direction.REVERSE);
         br.setDirection(DcMotor.Direction.REVERSE);
-        fl.setDirection(DcMotor.Direction.FORWARD);
-        bl.setDirection(DcMotor.Direction.FORWARD);
-
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        clawServo.setPosition(0.82);
-        flipServo.setPosition(1);
+
+        CRServo handServo = hardwareMap.crservo.get("hand_servo");
+        Servo buildPlateServo = hardwareMap.servo.get("BuildPlate_servo");
+        Servo buildPlateServo2 = hardwareMap.servo.get("Build_Plate_servo");
 
         waitForStart();
         while(opModeIsActive()){
@@ -33,10 +46,18 @@ import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(fl.getCurrentPosition() > 1200){
+                if(fl.getCurrentPosition() > 1000){
                     stage++;
                 }
             }
+            if(stage > 0) {
+                fl.setPower(0);
+                bl.setPower(0);
+                fr.setPower(0);
+                br.setPower(0);
+
+            }
+            /*
             //Set Claw Down
             if(stage == 1){
                 clawServo.setPosition(0);
@@ -96,7 +117,10 @@ import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
                 if(fl.getCurrentPosition() < 200){
                     stage++;
                 }
-            }
+            }*/
+
+            telemetry.addData("Encoder: ", fl.getCurrentPosition());
+            telemetry.update();
        }
     }
 }

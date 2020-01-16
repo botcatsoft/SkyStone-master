@@ -35,7 +35,7 @@ import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
                 if(fl.getCurrentPosition() >1200){
                     stage++;
                 }
-            }
+            }/*
             //move forward
           if(stage == 1){
                 clawServo.setPosition(0);
@@ -110,7 +110,7 @@ import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
                 if(fl.getCurrentPosition() > 1200){
                     stage++;
                 }
-            }
+            }*/
             telemetry.addData("frPower: ", fr.getPower());
             telemetry.addData("flPower: ", fl.getPower());
             telemetry.addData("brPower: ", br.getPower());
