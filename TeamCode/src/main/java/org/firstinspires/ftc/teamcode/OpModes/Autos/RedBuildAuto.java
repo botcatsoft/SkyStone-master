@@ -384,10 +384,6 @@ public class RedBuildAuto extends LinearOpMode {
 
 
 
-
-
-
-
             fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
             fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
             br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);

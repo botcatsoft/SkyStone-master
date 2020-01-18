@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "ProtoBlueBuild") public class ProtoBlueBuild extends LinearOpMode {
+@Autonomous(name = "Drive Forward a bit") public class ProtoBlueBuild extends LinearOpMode {
     @Override public void runOpMode() {
       //Variables
       int stage = 0;

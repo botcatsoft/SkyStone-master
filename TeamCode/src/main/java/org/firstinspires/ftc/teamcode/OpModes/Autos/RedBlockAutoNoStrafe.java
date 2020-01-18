@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
-
+@Disabled
 @Autonomous(name="RedBlockAuto", group ="Concept")
 public class RedBlockAutoNoStrafe extends LinearOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
@@ -316,6 +317,7 @@ public class RedBlockAutoNoStrafe extends LinearOpMode {
         Arm intake = new Arm();
         Drive turn = new Drive();
         skystone.activate();
+        boolean lastLocationNotNull = false;
 
         int loop = 0;
 
@@ -331,6 +333,7 @@ public class RedBlockAutoNoStrafe extends LinearOpMode {
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
+                    lastLocationNotNull = true;
                 }
             }
             //drive up to block
@@ -395,6 +398,19 @@ public class RedBlockAutoNoStrafe extends LinearOpMode {
             Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1,2));
             //this might be wrong, we didn't test it yet
             double rot = (homer.getAngle() - lastLocation.get(1,2))/ 360; //might be wrong variable
+
+            if(lastLocationNotNull){
+                currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+                correction = homer.drive(currentPosition, 1);
+                correctionWithAngle = rotate(correction, lastLocation.get(1,2));
+                rot = (homer.getAngle() - lastLocation.get(1,2))/ 360;
+            } else{
+                currentPosition = new Vector2d(0,0);
+                correction = homer.drive(currentPosition, 1);
+                correctionWithAngle = rotate(correction, 0);
+                rot = 0;
+            }
+
 
             fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
             fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);

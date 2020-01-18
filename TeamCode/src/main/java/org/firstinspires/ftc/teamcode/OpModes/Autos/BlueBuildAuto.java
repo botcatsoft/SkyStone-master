@@ -323,6 +323,7 @@ public class BlueBuildAuto extends LinearOpMode {
         homer.setkp(0.4);
 
         skystone.activate();
+        boolean lastLocationNotNull = false;
 
         while (opModeIsActive()) {
             for (VuforiaTrackable trackable : allTrackables) {
@@ -336,6 +337,7 @@ public class BlueBuildAuto extends LinearOpMode {
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
+                    lastLocationNotNull = true;
                 }
             }
             //drive up to site
@@ -395,6 +397,19 @@ public class BlueBuildAuto extends LinearOpMode {
             Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1,2));
             //this might be wrong, we didn't test it yet
             double rot = (homer.getAngle() - lastLocation.get(1,2))/ 360; //might be wrong variable
+
+            if(lastLocationNotNull){
+                currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+                correction = homer.drive(currentPosition, 1);
+                correctionWithAngle = rotate(correction, lastLocation.get(1,2));
+                rot = (homer.getAngle() - lastLocation.get(1,2))/ 360;
+            } else{
+                currentPosition = new Vector2d(0,0);
+                correction = homer.drive(currentPosition, 1);
+                correctionWithAngle = rotate(correction, 0);
+                rot = 0;
+            }
+
 
             fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
             fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
