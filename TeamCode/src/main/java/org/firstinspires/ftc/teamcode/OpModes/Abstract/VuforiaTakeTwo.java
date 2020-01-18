@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.OpModes.Abstract;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -42,7 +43,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ import java.util.List;
 
 @TeleOp(name="BaseVuforia", group ="Concept")
 
-public abstract class VuforiaTakeTwo extends BaseOpMode {
+public abstract class VuforiaTakeTwo extends LinearOpMode {
 
     public static final String TAG = "Vuforia Navigation Sample";
 

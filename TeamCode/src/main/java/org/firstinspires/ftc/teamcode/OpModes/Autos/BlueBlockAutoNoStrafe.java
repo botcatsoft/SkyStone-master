@@ -2,13 +2,13 @@ package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 
   import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
+  import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+  import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.MatrixF;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+  import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -19,8 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Hardware.Arm;
 import org.firstinspires.ftc.teamcode.Hardware.Drive;
-import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
-import org.firstinspires.ftc.teamcode.math.Vector2d;
+  import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ import java.util.List;
 import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
 @Autonomous(name="BlueBlockAuto", group ="Concept")
-public class BlueBlockAutoNoStrafe extends BaseOpMode {
+public class BlueBlockAutoNoStrafe extends LinearOpMode {
     public static final String TAG = "Vuforia Navigation Sample";
 
     OpenGLMatrix lastLocation = null;
@@ -40,6 +39,12 @@ public class BlueBlockAutoNoStrafe extends BaseOpMode {
     VuforiaLocalizer vuforia;
 
     @Override public void runOpMode() {
+
+        DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
+        DcMotor fr = hardwareMap.dcMotor.get("front_right_motor");
+        DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
+        DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
 
         Servo flipServo = hardwareMap.servo.get("flippy");
@@ -398,6 +403,8 @@ public class BlueBlockAutoNoStrafe extends BaseOpMode {
             } else {
                 telemetry.addData("Pos", "Unknown");
             }
+            telemetry.addData("Stage: ", stage);
+            telemetry.addData("Is at Target: ", homer.atTarget());
             telemetry.update();
         }
 

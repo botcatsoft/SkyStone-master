@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.Testers;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
-
-@TeleOp(name = "servo test") public class JavaMonsterServoTest extends BaseOpMode {
+@TeleOp(name = "servo test") public class JavaMonsterServoTest extends LinearOpMode {
     public void runOpMode(){
         Servo servoTest = hardwareMap.servo.get("servo_test");
 

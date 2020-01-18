@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.MatrixF;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -19,7 +18,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Hardware.Drive;
-import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
 import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 import java.util.ArrayList;
@@ -300,6 +298,7 @@ public class RedBuildAuto extends LinearOpMode {
         homer.setkd(0.5);
         homer.setkp(0.4);
         skystone.activate();
+        boolean lastLocationNotNull = false;
 
         while (opModeIsActive()) {
             for (VuforiaTrackable trackable : allTrackables) {
@@ -309,13 +308,15 @@ public class RedBuildAuto extends LinearOpMode {
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
+                    lastLocationNotNull = true;
                 }
 
             }
 
             //drive up to site
             if(stage == 0){
-                homer.setTarget(596.9,1193.8);
+                homer.setTarget(90);
+                //homer.setTarget(596.9,1193.8);
             }
 
             //latch on
@@ -365,11 +366,25 @@ public class RedBuildAuto extends LinearOpMode {
             }
 
             Vector2d correction;
-            Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
-            correction = homer.drive(currentPosition, 1);
-            Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1,2));
-            //this might be wrong, we didn't test it yet
-            double rot = (homer.getAngle() - lastLocation.get(1,2))/ 360; //might be wrong variable
+            Vector2d currentPosition;
+            Vector2d correctionWithAngle;
+            double rot;
+
+            if(lastLocationNotNull){
+                currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+                correction = homer.drive(currentPosition, 1);
+                correctionWithAngle = rotate(correction, lastLocation.get(1,2));
+                rot = (homer.getAngle() - lastLocation.get(1,2))/ 360;
+            } else{
+                currentPosition = new Vector2d(0,0);
+                correction = homer.drive(currentPosition, 1);
+                correctionWithAngle = rotate(correction, 0);
+                rot = 0;
+            }
+
+
+
+
 
 
 
@@ -387,6 +402,10 @@ public class RedBuildAuto extends LinearOpMode {
             } else {
                 telemetry.addData("Pos", "Unknown");
             }
+            telemetry.addData("Stage: ", stage);
+            telemetry.addData("Is at Target: ", homer.atTarget());
+            telemetry.addData("Current Pos x: ", currentPosition.x);
+            telemetry.addData("Current Pos y: ", currentPosition.y);
             telemetry.update();
         }
     }

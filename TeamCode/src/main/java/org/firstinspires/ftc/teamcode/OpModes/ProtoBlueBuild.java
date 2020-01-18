@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.OpModes.Abstract.BaseOpMode;
-
 @Autonomous(name = "ProtoBlueBuild") public class ProtoBlueBuild extends LinearOpMode {
     @Override public void runOpMode() {
       //Variables
