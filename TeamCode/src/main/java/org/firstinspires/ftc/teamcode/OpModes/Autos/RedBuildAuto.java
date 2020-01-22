@@ -134,8 +134,8 @@ public class RedBuildAuto extends LinearOpMode {
         float mmFTCFieldWidth  = (12*12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
 
 
-       //set the position and rotation of each trackable and the phone relative to the center of the robot
-       OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
+        //set the position and rotation of each trackable and the phone relative to the center of the robot
+        OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
 
                 .translation(mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
@@ -147,7 +147,7 @@ public class RedBuildAuto extends LinearOpMode {
 
 
         OpenGLMatrix redTarget2LocationOnField = OpenGLMatrix
-                 .translation(mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
+                .translation(mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
                         AngleUnit.DEGREES, -90, 90, 0));
@@ -413,9 +413,4 @@ public class RedBuildAuto extends LinearOpMode {
     String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
-
-
-
-
-
 }

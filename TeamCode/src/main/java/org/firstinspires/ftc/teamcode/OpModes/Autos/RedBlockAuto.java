@@ -326,74 +326,74 @@ public class RedBlockAuto extends LinearOpMode {
                  * the last time that call was made, or if the trackable is not currently visible.
                  * getRobotLocation() will return null if the trackable is not currently visible.
                  */
-                telemetry.addData(trackable.getName(), ((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible() ? "Visible" : "Not Visible");    //
+                telemetry.addData(trackable.getName(), ((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible() ? "Visible" : "Not Visible");    //
 
-                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                     lastLocationNotNull = true;
                 }
             }
             //drive up to block
-            if(stage == 0){
-                homer.setTarget(825.5,-696.38 + 228.6*loop);
+            if (stage == 0) {
+                homer.setTarget(825.5, -696.38 + 228.6 * loop);
             }
 
             //grab block
-            if(stage == 1){
-              //grab block
+            if (stage == 1) {
+                //grab block
                 intake.setTarget(90);
             }
 
             //pull block
-            if(stage == 2){
-                homer.setTarget(1422.4,696.38 + 228.6*loop);
+            if (stage == 2) {
+                homer.setTarget(1422.4, 696.38 + 228.6 * loop);
             }
 
             //move up to build site
-            if(stage == 3){
-                homer.setTarget(1422.4,1193.8);
+            if (stage == 3) {
+                homer.setTarget(1422.4, 1193.8);
 
             }
 
             //let go of block
-            if(stage == 4){
+            if (stage == 4) {
                 //let go of block
                 intake.setTarget(0);
             }
 
             //move back down
-            if(stage == 5){
-                homer.setTarget(1422.4,-696.38);
+            if (stage == 5) {
+                homer.setTarget(1422.4, -696.38);
 
             }
 
             //Moves on to next loop
-            if(stage == 6){
-              stage = 0;
-              loop++;
+            if (stage == 6) {
+                stage = 0;
+                loop++;
             }
 
             //Moves on to the next stage
-            if(homer.atTarget() && intake.atTarget()){
+            if (homer.atTarget() && intake.atTarget()) {
                 stage++;
             }
 
             Vector2d correction;
-            Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+            Vector2d currentPosition = new Vector2d(lastLocation.get(0, 0), lastLocation.get(0, 1));
             correction = homer.drive(currentPosition, 1);
-            Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1,2));
+            Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1, 2));
             //this might be wrong, we didn't test it yet
-            double rot = (homer.getAngle() - lastLocation.get(1,2))/ 360; //might be wrong variable
+            double rot = (homer.getAngle() - lastLocation.get(1, 2)) / 360; //might be wrong variable
 
 
-            if(lastLocationNotNull){
-                currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+            if (lastLocationNotNull) {
+                currentPosition = new Vector2d(lastLocation.get(0, 0), lastLocation.get(0, 1));
                 correction = homer.drive(currentPosition, 1);
-                correctionWithAngle = rotate(correction, lastLocation.get(1,2));
-                rot = (homer.getAngle() - lastLocation.get(1,2))/ 360;
-            } else{
-                currentPosition = new Vector2d(0,0);
+                correctionWithAngle = rotate(correction, lastLocation.get(1, 2));
+                rot = (homer.getAngle() - lastLocation.get(1, 2)) / 360;
+            } else {
+                currentPosition = new Vector2d(0, 0);
                 correction = homer.drive(currentPosition, 1);
                 correctionWithAngle = rotate(correction, 0);
                 rot = 0;
@@ -407,7 +407,7 @@ public class RedBlockAuto extends LinearOpMode {
 
             double armSpeed = intake.move(clawMotor.getCurrentPosition());
             clawMotor.setPower(armSpeed);
-        }
+
             /**
              * Provide feedback as to where the robot was last located (if we know).
              */
@@ -419,6 +419,9 @@ public class RedBlockAuto extends LinearOpMode {
             }
             telemetry.update();
         }
+
+    }
+
 
 
     /**

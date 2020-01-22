@@ -38,7 +38,8 @@ public class BlueBlockAuto extends LinearOpMode {
      */
     VuforiaLocalizer vuforia;
 
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
 
 
         DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
@@ -122,16 +123,16 @@ public class BlueBlockAuto extends LinearOpMode {
         VuforiaTrackable rearTarget2 = skystone.get(12);
         rearTarget2.setName("RearPerimeterTgt2");
 
-        VuforiaTrackable bridgeBlueRear  = skystone.get(2);
+        VuforiaTrackable bridgeBlueRear = skystone.get(2);
         bridgeBlueRear.setName("BridgeBlueRear");
 
-        VuforiaTrackable bridgeRedRear  = skystone.get(3);
+        VuforiaTrackable bridgeRedRear = skystone.get(3);
         bridgeRedRear.setName("BridgeRedRear");
 
-        VuforiaTrackable bridgeBlueFront  = skystone.get(4);
+        VuforiaTrackable bridgeBlueFront = skystone.get(4);
         bridgeBlueFront.setName("BridgeBlueFront");
 
-        VuforiaTrackable bridgeRedFront  = skystone.get(5);
+        VuforiaTrackable bridgeRedFront = skystone.get(5);
         bridgeRedFront.setName("BridgeRedFront");
 
         /** For convenience, gather together all the trackable objects in one easily-iterable collection */
@@ -149,10 +150,10 @@ public class BlueBlockAuto extends LinearOpMode {
         float mmBotWidth = 18 * mmPerInch;            // ... or whatever is right for your robot
         float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
 
-       //set the position and rotation of each trackable and the phone relative to the center of the robot
-       OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
+        //set the position and rotation of each trackable and the phone relative to the center of the robot
+        OpenGLMatrix redTarget1LocationOnField = OpenGLMatrix
 
-                .translation(mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -162,7 +163,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
 
         OpenGLMatrix redTarget2LocationOnField = OpenGLMatrix
-                 .translation(mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
+                .translation(mmFTCFieldWidth / 2, (-mmFTCFieldWidth / 2) + 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
                         AngleUnit.DEGREES, -90, 90, 0));
@@ -172,7 +173,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix rearTarget1LocationOnField = OpenGLMatrix
 
-                .translation((-mmFTCFieldWidth/2) + 914.4f, (mmFTCFieldWidth/2) , 146.05f)
+                .translation((-mmFTCFieldWidth / 2) + 914.4f, (mmFTCFieldWidth / 2), 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -183,7 +184,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix rearTarget2LocationOnField = OpenGLMatrix
 
-                .translation((mmFTCFieldWidth/2) - 914.4f, mmFTCFieldWidth/2, 146.05f)
+                .translation((mmFTCFieldWidth / 2) - 914.4f, mmFTCFieldWidth / 2, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -194,7 +195,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix frontTarget1LocationOnField = OpenGLMatrix
 
-                .translation((mmFTCFieldWidth/2) - 914.4f, (-mmFTCFieldWidth/2), 146.05f)
+                .translation((mmFTCFieldWidth / 2) - 914.4f, (-mmFTCFieldWidth / 2), 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -205,7 +206,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix frontTarget2LocationOnField = OpenGLMatrix
 
-                .translation((-mmFTCFieldWidth/2) + 914.4f, (-mmFTCFieldWidth/2), 146.05f)
+                .translation((-mmFTCFieldWidth / 2) + 914.4f, (-mmFTCFieldWidth / 2), 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -216,7 +217,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix blueTarget1LocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (-mmFTCFieldWidth/2) + 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (-mmFTCFieldWidth / 2) + 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -227,7 +228,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix blueTarget2LocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -237,7 +238,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix bridgeBlueRearLocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -247,7 +248,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix bridgeRedRearLocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -257,7 +258,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix bridgeBlueFrontLocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -267,7 +268,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         OpenGLMatrix bridgeRedFrontLocationOnField = OpenGLMatrix
 
-                .translation(-mmFTCFieldWidth/2, (mmFTCFieldWidth/2) - 914.4f, 146.05f)
+                .translation(-mmFTCFieldWidth / 2, (mmFTCFieldWidth / 2) - 914.4f, 146.05f)
                 .multiplied(Orientation.getRotationMatrix(
 
                         AxesReference.EXTRINSIC, AxesOrder.XZX,
@@ -278,7 +279,7 @@ public class BlueBlockAuto extends LinearOpMode {
 
         //We need to describe where on the bot the phone is
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation(-7.25f,0,13.5f)
+                .translation(-7.25f, 0, 13.5f)
                 .multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.YZY,
                         AngleUnit.DEGREES, 180, 90, 0));
@@ -300,10 +301,10 @@ public class BlueBlockAuto extends LinearOpMode {
         ((VuforiaTrackableDefaultListener) rearTarget2.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
 
         //listeners for bridge trackables
-        ((VuforiaTrackableDefaultListener)bridgeRedRear.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)bridgeBlueRear.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)bridgeRedFront.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-        ((VuforiaTrackableDefaultListener)bridgeBlueFront.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) bridgeRedRear.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) bridgeBlueRear.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) bridgeRedFront.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        ((VuforiaTrackableDefaultListener) bridgeBlueFront.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
 
 
         /** Wait for the game to begin */
@@ -333,13 +334,14 @@ public class BlueBlockAuto extends LinearOpMode {
                     lastLocationNotNull = true;
                 }
             }
+
             if (stage == 0) {
                 homer.setTarget(-825.5, -696.38 - (loop * 198.97), 90);
-                    //go to block
-                }
+                //go to block
+
             }
             if (stage == 1) {
-              intake.setTarget(90);
+                intake.setTarget(90);
                 //grab_block
             }
 
@@ -352,7 +354,7 @@ public class BlueBlockAuto extends LinearOpMode {
             } //move to build site
 
             if (stage == 4) {
-              intake.setTarget(0);
+                intake.setTarget(0);
                 //let go of block
             }
 
@@ -361,28 +363,26 @@ public class BlueBlockAuto extends LinearOpMode {
             }//return to alliance side
 
             if (stage == 6) {
-              stage = 0;
-              loop++;
+                stage = 0;
+                loop++;
             }
 
-            if(homer.atTarget() && intake.atTarget()){
+            if (homer.atTarget() && intake.atTarget()) {
                 stage++;
             }
 
+            double rot;
+            Vector2d currentPosition;
             Vector2d correction;
-            Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
-            correction = homer.drive(currentPosition, 1);
-            Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1,2));
-            //this might be wrong, we didn't test it yet
-            double rot = (homer.getAngle() - lastLocation.get(1,2))/ 360; //might be wrong variable
+            Vector2d correctionWithAngle;
 
-            if(lastLocationNotNull){
-                currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
+            if (lastLocationNotNull) {
+                currentPosition = new Vector2d(lastLocation.get(0, 0), lastLocation.get(0, 1));
                 correction = homer.drive(currentPosition, 1);
-                correctionWithAngle = rotate(correction, lastLocation.get(1,2));
-                rot = (homer.getAngle() - lastLocation.get(1,2))/ 360;
-            } else{
-                currentPosition = new Vector2d(0,0);
+                correctionWithAngle = rotate(correction, lastLocation.get(1, 2));
+                rot = (homer.getAngle() - lastLocation.get(1, 2)) / 360;
+            } else {
+                currentPosition = new Vector2d(0, 0);
                 correction = homer.drive(currentPosition, 1);
                 correctionWithAngle = rotate(correction, 0);
                 rot = 0;
@@ -412,13 +412,15 @@ public class BlueBlockAuto extends LinearOpMode {
         }
 
 
+        /**
+         * A simple utility that extracts positioning information from a transformation matrix
+         * and formats it in a form palatable to a human being.
+         */
 
-    /**
-     * A simple utility that extracts positioning information from a transformation matrix
-     * and formats it in a form palatable to a human being.
-     */
-    String format(OpenGLMatrix transformationMatrix) {
+    }
+    String format (OpenGLMatrix transformationMatrix){
         return transformationMatrix.formatAsTransform();
     }
-
 }
+
+
