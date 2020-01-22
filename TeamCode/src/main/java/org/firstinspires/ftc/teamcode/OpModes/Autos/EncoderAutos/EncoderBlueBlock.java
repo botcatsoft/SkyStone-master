@@ -130,6 +130,8 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
           dx = goRightMotors - goLeftMotors;
           dy = goRightMotors + goLeftMotors;
 
+
+
           currentX = currentX + 0; // use tan2 to find out how much of dx and dy to use
           currentY = currentY + 0;
 
