@@ -7,9 +7,15 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware.Arm;
 import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.math.Vector2d;
+
+import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
 @Autonomous(name="EncoderBlueBuild", group ="Concept")
 public class EncoderBlueBuild extends LinearOpMode {
@@ -55,12 +61,19 @@ public class EncoderBlueBuild extends LinearOpMode {
         int loop = 0;
         double currentX = -1770;
         double currentY = 696.38;
+        double initialAngle = 90;
+        double angle;
         double lastfr = 0;
         double lastfl = 0;
         double lastbr = 0;
         double lastbl = 0;
+        double goRightMotors;
+        double goLeftMotors;
+        double dx;
+        double dy;
 
         while(opModeIsActive()) {
+           Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             if(stage == 0){
                 homer.setTarget(-825.5, 1193.8);
             }
@@ -111,28 +124,41 @@ public class EncoderBlueBuild extends LinearOpMode {
               stage++;
             }
 
-            Vector2d correction;
-            //Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
-            //correction = homer.drive(currentPosition, 1);
-            //Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1,2));
-            //this might be wrong, we didn't test it yet
-            //double rot = (homer.getAngle() - lastLocation.get(1,2))/ 360; //might be wrong variable
+          Vector2d correction;
+          Vector2d currentPosition = new Vector2d(currentX, currentY);
+          correction = homer.drive(currentPosition, 1);
+          Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
+          double rot = homer.getAngle() - angles.firstAngle;
 
-            //fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
-            //fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
-            //br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
-            //bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
 
-            double armSpeed= intake.move(clawMotor.getCurrentPosition());
-            clawMotor.setPower(armSpeed);
+          fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+          fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
+          br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
+          bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
 
-            //frontMotorChange = (fr.getCurrentPosition() - lastfr + fl.getCurrentPosition() - lastfl) / 2;
-            //backMotorChange = (br.getCurrentPosition() - lastbr + fl.getCurrentPosition() - lastbl) / 2;
+          double armSpeed = intake.move(clawMotor.getCurrentPosition());
+          clawMotor.setPower(armSpeed);
 
-            lastfr = fr.getCurrentPosition();
-            lastfl = fl.getCurrentPosition();
-            lastbr = br.getCurrentPosition();
-            lastbl = bl.getCurrentPosition();
+          goRightMotors = (fl.getCurrentPosition() - lastfl + br.getCurrentPosition() - lastbr) / 2;
+          goLeftMotors = (fr.getCurrentPosition() - lastfr + bl.getCurrentPosition() - lastbl) / 2;
+
+          dx = goRightMotors - goLeftMotors;
+          dy = goRightMotors + goLeftMotors;
+
+
+          angle = angles.firstAngle + initialAngle;
+          currentX = currentX + Math.cos(angle) * dx + Math.sin(angle) * dy; // use tan2 to find out how much of dx and dy to use
+          currentY = currentY + Math.cos(angle) * dx + Math.sin(angle) * dy;
+
+
+
+
+          //recursion on last encoder values
+          lastfr = fr.getCurrentPosition();
+          lastfl = fl.getCurrentPosition();
+          lastbr = br.getCurrentPosition();
+          lastbl = bl.getCurrentPosition();
+
         }
     }
 }

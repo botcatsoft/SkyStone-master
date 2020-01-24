@@ -12,8 +12,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
         waitForStart();
         while(opModeIsActive()){
-
-
             if(gamepad1.y) {
                 // move to 0 degrees.
                 servoTest.setPosition(0);
@@ -25,10 +23,7 @@ import com.qualcomm.robotcore.hardware.Servo;
                 servoTest.setPosition(1);
             }
             telemetry.addData("Servo Position", servoTest.getPosition());
-
-
             telemetry.update();
-
-        }
         }
     }
+}

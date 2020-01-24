@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos.EncoderAutos;
 
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,8 +7,15 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Hardware.Arm;
 import org.firstinspires.ftc.teamcode.Hardware.Drive;
 import org.firstinspires.ftc.teamcode.math.Vector2d;
+
+import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
 @Autonomous(name="RedBuildAuto", group ="Concept")
 public class EncoderRedBuild extends LinearOpMode {
@@ -45,6 +51,7 @@ public class EncoderRedBuild extends LinearOpMode {
         param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         imu.initialize(param);
 
+
         waitForStart();
 
         int stage = 0;
@@ -52,14 +59,19 @@ public class EncoderRedBuild extends LinearOpMode {
         int loop = 0;
         double currentX = -1770;
         double currentY = -696.38;
+        double initialAngle = -90;
         double lastfr = 0;
         double lastfl = 0;
         double lastbr = 0;
         double lastbl = 0;
+        double angle;
+        double goRightMotors;
+        double goLeftMotors;
+        double dx;
+        double dy;
 
         while (opModeIsActive()) {
-
-
+              Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //drive up to site
             if (stage == 0) {
                 homer.setTarget(90);
@@ -113,14 +125,25 @@ public class EncoderRedBuild extends LinearOpMode {
             }
 
             Vector2d correction;
-            Vector2d currentPosition;
-            Vector2d correctionWithAngle;
-            //double rot = homer.getAngle() - angles.firstAngle;
+            Vector2d currentPosition = new Vector2d(currentX, currentY);
+            correction = homer.drive(currentPosition, 1);
+            Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
+            double rot = homer.getAngle() - angles.firstAngle;
 
-            //fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
-            //fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
-            //br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
-            //bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+            fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+            fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
+            br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
+            bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+
+            goRightMotors = (fl.getCurrentPosition() - lastfl + br.getCurrentPosition() - lastbr) / 2;
+            goLeftMotors = (fr.getCurrentPosition() - lastfr + bl.getCurrentPosition() - lastbl) / 2;
+
+            dx = goRightMotors - goLeftMotors;
+            dy = goRightMotors + goLeftMotors;
+
+            angle = angles.firstAngle + initialAngle;
+            currentX = currentX + Math.cos(angle) * dx + Math.sin(angle) * dy; // use tan2 to find out how much of dx and dy to use
+            currentY = currentY + Math.cos(angle) * dx + Math.sin(angle) * dy;
 
             lastfr = bl.getCurrentPosition();
             lastfl = bl.getCurrentPosition();

@@ -60,6 +60,8 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
         int loop = 0;
         double currentX = -1770;
         double currentY = -696.38;
+        double initialAngle = 90;
+        double angle;
         double lastfr = 0;
         double lastfl = 0;
         double lastbr = 0;
@@ -131,9 +133,9 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
           dy = goRightMotors + goLeftMotors;
 
 
-
-          currentX = currentX + 0; // use tan2 to find out how much of dx and dy to use
-          currentY = currentY + 0;
+          angle = angles.firstAngle + initialAngle;
+          currentX = currentX + Math.cos(angle) * dx + Math.sin(angle) * dy; // use tan2 to find out how much of dx and dy to use
+          currentY = currentY + Math.cos(angle) * dx + Math.sin(angle) * dy;
 
 
 
