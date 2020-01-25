@@ -118,10 +118,10 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
           double rot = homer.getAngle() - angles.firstAngle;
 
 
-          fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
-          fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
-          br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
-          bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+          fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
+          fr.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+          bl.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+          br.setPower(correctionWithAngle.x - correctionWithAngle.y + rot);
 
           double armSpeed = intake.move(clawMotor.getCurrentPosition());
           clawMotor.setPower(armSpeed);
@@ -138,14 +138,19 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
           currentY = currentY + Math.cos(angle) * dx + Math.sin(angle) * dy;
 
 
-
-
           //recursion on last encoder values
           lastfr = fr.getCurrentPosition();
           lastfl = fl.getCurrentPosition();
           lastbr = br.getCurrentPosition();
           lastbl = bl.getCurrentPosition();
 
+          telemetry.addData("Xpos", currentX);
+          telemetry.addData("Ypos", currentY);
+          telemetry.addData("Xpos", lastfr);
+          telemetry.addData("Xpos", lastfl);
+          telemetry.addData("Xpos", lastbr);
+          telemetry.addData("Xpos", lastbl);
+          telemetry.addData("Xpos", stage);
         }
     }
 }

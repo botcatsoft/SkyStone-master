@@ -23,8 +23,8 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
         DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -113,10 +113,10 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
             Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
             double rot = homer.getAngle() - angles.firstAngle;
 
-            fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
-            fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
-            br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
-            bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+            fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
+            fr.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+            bl.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+            br.setPower(correctionWithAngle.x - correctionWithAngle.y + rot);
 
             double armSpeed = intake.move(clawMotor.getCurrentPosition());
             clawMotor.setPower(armSpeed);
@@ -140,6 +140,14 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
             lastfl = fl.getCurrentPosition();
             lastbr = br.getCurrentPosition();
             lastbl = bl.getCurrentPosition();
+
+            telemetry.addData("Xpos", currentX);
+            telemetry.addData("Ypos", currentY);
+            telemetry.addData("Xpos", lastfr);
+            telemetry.addData("Xpos", lastfl);
+            telemetry.addData("Xpos", lastbr);
+            telemetry.addData("Xpos", lastbl);
+            telemetry.addData("Xpos", stage);
           }
       }
 }

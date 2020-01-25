@@ -42,10 +42,10 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 
         //Motors
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.REVERSE);
-        fl.setDirection(DcMotor.Direction.FORWARD);
-        bl.setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.FORWARD);
 
         // Gyro init
 
@@ -90,10 +90,10 @@ package org.firstinspires.ftc.teamcode.OpModes;
             //motor setting for drivetrain
             Vector2d input = new Vector2d(gamepad1.left_stick_y / 2, gamepad1.left_stick_x / 2);
             double rot = gamepad1.right_trigger - gamepad1.left_trigger;
-            fl.setPower(input.x - input.y + rot);
-            fr.setPower(input.x + input.y - rot);
-            bl.setPower(input.x + input.y + rot);
-            br.setPower(input.x - input.y - rot);
+            fl.setPower(input.x - input.y - rot);
+            fr.setPower(input.x + input.y + rot);
+            bl.setPower(input.x + input.y - rot);
+            br.setPower(input.x - input.y + rot);
 
             //motor setting for arm
             //double armSpeed = intake.move(clawMotor.getCurrentPosition());

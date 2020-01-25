@@ -131,10 +131,10 @@ public class EncoderBlueBuild extends LinearOpMode {
           double rot = homer.getAngle() - angles.firstAngle;
 
 
-          fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
-          fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
-          br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
-          bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+          fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
+          fr.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+          bl.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+          br.setPower(correctionWithAngle.x - correctionWithAngle.y + rot);
 
           double armSpeed = intake.move(clawMotor.getCurrentPosition());
           clawMotor.setPower(armSpeed);
@@ -158,6 +158,14 @@ public class EncoderBlueBuild extends LinearOpMode {
           lastfl = fl.getCurrentPosition();
           lastbr = br.getCurrentPosition();
           lastbl = bl.getCurrentPosition();
+
+          telemetry.addData("Xpos", currentX);
+          telemetry.addData("Ypos", currentY);
+          telemetry.addData("Xpos", lastfr);
+          telemetry.addData("Xpos", lastfl);
+          telemetry.addData("Xpos", lastbr);
+          telemetry.addData("Xpos", lastbl);
+          telemetry.addData("Xpos", stage);
 
         }
     }

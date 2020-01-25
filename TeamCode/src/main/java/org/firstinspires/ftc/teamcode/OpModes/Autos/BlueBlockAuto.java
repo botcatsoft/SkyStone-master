@@ -389,10 +389,10 @@ public class BlueBlockAuto extends LinearOpMode {
             }
 
 
-            fr.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
-            fl.setPower(-correctionWithAngle.x + correctionWithAngle.y + rot);
-            br.setPower(-correctionWithAngle.x + correctionWithAngle.y - rot);
-            bl.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+            fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
+            fr.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
+            bl.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
+            br.setPower(correctionWithAngle.x - correctionWithAngle.y + rot);
 
 
             double armSpeed = intake.move(clawMotor.getCurrentPosition());
