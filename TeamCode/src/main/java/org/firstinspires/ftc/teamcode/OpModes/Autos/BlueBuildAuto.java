@@ -47,8 +47,8 @@ public class BlueBuildAuto extends LinearOpMode {
         DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -56,7 +56,7 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
         Arm intake = new Arm();
         int loop = 0;
         double currentX = 1770;
-        double currentY = 696.38;
+        double currentY = -696.38;
         double lastfr = 0;
         double lastfl = 0;
         double lastbr = 0;
@@ -143,11 +143,12 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
             telemetry.addData("Xpos", currentX);
             telemetry.addData("Ypos", currentY);
-            telemetry.addData("Xpos", lastfr);
-            telemetry.addData("Xpos", lastfl);
-            telemetry.addData("Xpos", lastbr);
-            telemetry.addData("Xpos", lastbl);
+            telemetry.addData("flPower: ", fl.getPower());
+            telemetry.addData("frPower: ", fr.getPower());
+            telemetry.addData("blPower: ", bl.getPower());
+            telemetry.addData("brPower: ", br.getPower());
             telemetry.addData("Xpos", stage);
+            telemetry.update();
           }
       }
 }

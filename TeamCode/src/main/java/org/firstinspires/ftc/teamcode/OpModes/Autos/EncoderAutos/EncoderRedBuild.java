@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.math.Vector2d;
 
 import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
-@Autonomous(name="RedBuildAuto", group ="Concept")
+@Autonomous(name="EncoderRedBuildAuto", group ="Concept")
 public class EncoderRedBuild extends LinearOpMode {
     public void runOpMode(){
         DcMotor fl = hardwareMap.dcMotor.get("front_left_motor");
@@ -57,9 +57,9 @@ public class EncoderRedBuild extends LinearOpMode {
         int stage = 0;
         Drive homer = new Drive();
         int loop = 0;
-        double currentX = -1770;
-        double currentY = -696.38;
-        double initialAngle = -90;
+        double currentX = 1770;
+        double currentY = 1000;
+        double initialAngle = -180;
         double lastfr = 0;
         double lastfl = 0;
         double lastbr = 0;
@@ -69,13 +69,16 @@ public class EncoderRedBuild extends LinearOpMode {
         double goLeftMotors;
         double dx;
         double dy;
+        homer.setkd(0.6);
+        homer.setkd(0.4);
 
         while (opModeIsActive()) {
               Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //drive up to site
             if (stage == 0) {
-                homer.setTarget(90);
-                //homer.setTarget(596.9,1193.8);
+                homer.setTarget(596.9, 1000);
+                homer.setTarget(-180);
+
             }
 
             //latch on
@@ -128,7 +131,7 @@ public class EncoderRedBuild extends LinearOpMode {
             Vector2d currentPosition = new Vector2d(currentX, currentY);
             correction = homer.drive(currentPosition, 1);
             Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
-            double rot = homer.getAngle() - angles.firstAngle;
+            double rot = /*homer.getAngle() - angles.firstAngle*/ 0;
 
             fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
             fr.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);
@@ -143,22 +146,24 @@ public class EncoderRedBuild extends LinearOpMode {
 
             angle = angles.firstAngle + initialAngle;
             currentX = currentX + Math.cos(angle) * dx + Math.sin(angle) * dy; // use tan2 to find out how much of dx and dy to use
-            currentY = currentY + Math.cos(angle) * dx + Math.sin(angle) * dy;
+            currentY = currentY + Math.cos(angle) * dy + Math.sin(angle) * dx;
 
-            lastfr = bl.getCurrentPosition();
-            lastfl = bl.getCurrentPosition();
-            lastbr = bl.getCurrentPosition();
+            lastfl = fl.getCurrentPosition();
+            lastfr = fr.getCurrentPosition();
             lastbl = bl.getCurrentPosition();
-
+            lastbr = br.getCurrentPosition();
 
             telemetry.addData("Xpos", currentX);
             telemetry.addData("Ypos", currentY);
-            telemetry.addData("Xpos", lastfr);
-            telemetry.addData("Xpos", lastfl);
-            telemetry.addData("Xpos", lastbr);
-            telemetry.addData("Xpos", lastbl);
-            telemetry.addData("Xpos", stage);
+            telemetry.addData("flPower: ", fl.getPower());
+            telemetry.addData("frPower: ", fr.getPower());
+            telemetry.addData("blPower: ", bl.getPower());
+            telemetry.addData("brPower: ", br.getPower());
+            telemetry.addData("Correction X: ", correctionWithAngle.x);
+            telemetry.addData("Correction Y: ", correctionWithAngle.y);
 
+            telemetry.addData("Stage", stage);
+            telemetry.update();
         }
     }
 }

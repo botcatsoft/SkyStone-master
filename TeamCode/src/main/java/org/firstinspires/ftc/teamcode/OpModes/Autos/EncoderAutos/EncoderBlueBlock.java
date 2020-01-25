@@ -25,8 +25,8 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
         DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -146,11 +146,12 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
 
           telemetry.addData("Xpos", currentX);
           telemetry.addData("Ypos", currentY);
-          telemetry.addData("Xpos", lastfr);
-          telemetry.addData("Xpos", lastfl);
-          telemetry.addData("Xpos", lastbr);
-          telemetry.addData("Xpos", lastbl);
+          telemetry.addData("flPower: ", fl.getPower());
+          telemetry.addData("frPower: ", fr.getPower());
+          telemetry.addData("blPower: ", bl.getPower());
+          telemetry.addData("brPower: ", br.getPower());
           telemetry.addData("Xpos", stage);
+          telemetry.update();
         }
     }
 }

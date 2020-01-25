@@ -47,15 +47,13 @@ public class Drive {
     }
     public void setTarget(double x, double y){
 
-        targetVector.x = x;
-        targetVector.y = y;
+        targetVector.set(x,y);
 
     }
 
     public void setTarget(double x, double y, double angle){
 
-        targetVector.x = x;
-        targetVector.y = y;
+        targetVector.set(x,y);
         targetAngle = angle;
     }
 
