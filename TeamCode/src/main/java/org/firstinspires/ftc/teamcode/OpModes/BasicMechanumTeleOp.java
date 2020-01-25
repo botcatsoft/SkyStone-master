@@ -25,6 +25,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
         DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
+
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters param = new BNO055IMU.Parameters();
 
@@ -36,6 +37,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
         CRServo handServo = hardwareMap.crservo.get("hand_servo");
         Servo buildPlateServo = hardwareMap.servo.get("BuildPlate_servo");
         Servo buildPlateServo2 = hardwareMap.servo.get("Build_Plate_servo");
+        //Servo doorServo = hardwareMap.servo.get("Door_servo");
 
         buildPlateServo.setPosition(0.4);
 
@@ -66,26 +68,14 @@ package org.firstinspires.ftc.teamcode.OpModes;
             //hand control
             if (gamepad1.left_bumper) {
                 handServo.setPower(0.3);
+                //doorServo.setPosition(0.35);
             } else if (gamepad1.right_bumper) {
                 handServo.setPower(-0.3);
+                //doorServo.setPosition(0);
             } else {
                 handServo.setPower(0);
             }
 
-            //arm control
-            /*if (gamepad1.a) {
-                //position one
-                intake.setTarget(-1);
-            } else if (gamepad1.b) {
-                //postition two
-                intake.setTarget(105);
-
-            } else if (gamepad1.y) {
-                //position three
-                intake.setTarget(1);
-            }
-            intake.setkd(0.5);
-            intake.setkp(0.1);*/
 
             //motor setting for drivetrain
             Vector2d input = new Vector2d(gamepad1.left_stick_y / 2, gamepad1.left_stick_x / 2);
@@ -118,6 +108,12 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 buildPlateServo2.setPosition(0.6);
             }
 
+            /*if(gamepad1.a){
+                doorServo.setPosition(0);
+            }else if(gamepad1.b){
+                doorServo.setPosition(0.55);
+            }*/
+
 
             telemetry.addData("frPower: ", fr.getPower());
             telemetry.addData("flPower: ", fl.getPower());
@@ -131,6 +127,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
             telemetry.addData("Hand Power: ", handServo.getPower());
             telemetry.addData("Claw Encoder: ", clawMotor.getCurrentPosition());
             telemetry.addData("Claw Power", clawMotor.getPower());
+            //telemetry.addData("Door Location", doorServo.getPosition());
 
             telemetry.update();
 

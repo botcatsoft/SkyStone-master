@@ -47,7 +47,7 @@ public class EncoderBlueBuild extends LinearOpMode {
         BNO055IMU.Parameters param = new BNO055IMU.Parameters();
 
         param.loggingEnabled = false;
-        param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        param.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         imu.initialize(param);
 
@@ -57,11 +57,10 @@ public class EncoderBlueBuild extends LinearOpMode {
         /** Start tracking the data sets we care about. */
         int stage = 0;
         Drive homer = new Drive();
-        Arm intake = new Arm();
         int loop = 0;
         double currentX = -1770;
         double currentY = 696.38;
-        double initialAngle = 90;
+        double initialAngle = 0;
         double angle;
         double lastfr = 0;
         double lastfl = 0;
@@ -71,11 +70,14 @@ public class EncoderBlueBuild extends LinearOpMode {
         double goLeftMotors;
         double dx;
         double dy;
+        homer.setkd(0.6);
+        homer.setkp(0.4);
 
         while(opModeIsActive()) {
            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             if(stage == 0){
-                homer.setTarget(-825.5, 1193.8);
+                homer.setTarget(-596.9, 1000);
+                homer.setTarget(0);
             }
 
             //latch on
@@ -128,7 +130,7 @@ public class EncoderBlueBuild extends LinearOpMode {
           Vector2d currentPosition = new Vector2d(currentX, currentY);
           correction = homer.drive(currentPosition, 1);
           Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
-          double rot = homer.getAngle() - angles.firstAngle;
+          double rot = /*homer.getAngle() - angles.firstAngle*/ 0;
 
 
           fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
@@ -136,8 +138,6 @@ public class EncoderBlueBuild extends LinearOpMode {
           bl.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
           br.setPower(correctionWithAngle.x - correctionWithAngle.y + rot);
 
-          double armSpeed = intake.move(clawMotor.getCurrentPosition());
-          clawMotor.setPower(armSpeed);
 
           goRightMotors = (fl.getCurrentPosition() - lastfl + br.getCurrentPosition() - lastbr) / 2;
           goLeftMotors = (fr.getCurrentPosition() - lastfr + bl.getCurrentPosition() - lastbl) / 2;
@@ -148,7 +148,7 @@ public class EncoderBlueBuild extends LinearOpMode {
 
           angle = angles.firstAngle + initialAngle;
           currentX = currentX + Math.cos(angle) * dx + Math.sin(angle) * dy; // use tan2 to find out how much of dx and dy to use
-          currentY = currentY + Math.cos(angle) * dx + Math.sin(angle) * dy;
+          currentY = currentY + Math.cos(angle) * dy + Math.sin(angle) * dx;
 
 
 
@@ -159,14 +159,19 @@ public class EncoderBlueBuild extends LinearOpMode {
           lastbr = br.getCurrentPosition();
           lastbl = bl.getCurrentPosition();
 
-          telemetry.addData("Xpos", currentX);
-          telemetry.addData("Ypos", currentY);
-          telemetry.addData("flPower: ", fl.getPower());
-          telemetry.addData("frPower: ", fr.getPower());
-          telemetry.addData("blPower: ", bl.getPower());
-          telemetry.addData("brPower: ", br.getPower());
-          telemetry.addData("Xpos", stage);
-          telemetry.update();
+            telemetry.addData("Xpos", currentX);
+            telemetry.addData("Ypos", currentY);
+            telemetry.addData("flPower: ", fl.getPower());
+            telemetry.addData("frPower: ", fr.getPower());
+            telemetry.addData("blPower: ", bl.getPower());
+            telemetry.addData("brPower: ", br.getPower());
+            telemetry.addData("Correction X: ", correctionWithAngle.x);
+            telemetry.addData("Correction Y: ", correctionWithAngle.y);
+            telemetry.addData("Error X: ", homer.getErrorX(currentPosition));
+            telemetry.addData("Error Y: ", homer.getErrorY(currentPosition));
+
+            telemetry.addData("Stage", stage);
+            telemetry.update();
 
         }
     }

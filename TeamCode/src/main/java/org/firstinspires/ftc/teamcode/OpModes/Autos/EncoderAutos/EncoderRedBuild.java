@@ -47,7 +47,7 @@ public class EncoderRedBuild extends LinearOpMode {
         BNO055IMU.Parameters param = new BNO055IMU.Parameters();
 
         param.loggingEnabled = false;
-        param.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        param.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         param.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         imu.initialize(param);
 
@@ -60,17 +60,17 @@ public class EncoderRedBuild extends LinearOpMode {
         double currentX = 1770;
         double currentY = 1000;
         double initialAngle = -180;
+        double angle;
         double lastfr = 0;
         double lastfl = 0;
         double lastbr = 0;
         double lastbl = 0;
-        double angle;
         double goRightMotors;
         double goLeftMotors;
         double dx;
         double dy;
         homer.setkd(0.6);
-        homer.setkd(0.4);
+        homer.setkp(0.4);
 
         while (opModeIsActive()) {
               Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -161,6 +161,8 @@ public class EncoderRedBuild extends LinearOpMode {
             telemetry.addData("brPower: ", br.getPower());
             telemetry.addData("Correction X: ", correctionWithAngle.x);
             telemetry.addData("Correction Y: ", correctionWithAngle.y);
+            telemetry.addData("Error X: ", homer.getErrorX(currentPosition));
+            telemetry.addData("Error Y: ", homer.getErrorY(currentPosition));
 
             telemetry.addData("Stage", stage);
             telemetry.update();

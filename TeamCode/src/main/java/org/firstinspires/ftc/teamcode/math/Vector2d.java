@@ -40,6 +40,10 @@ public class Vector2d {
         this.x = xPos;
         this.y = yPos;
     }
+    public void set(Vector2d j){
+        this.x = j.x;
+        this.y = j.y;
+    }
 
     public double getMagnitude(){
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));

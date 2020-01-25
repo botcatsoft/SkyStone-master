@@ -27,16 +27,16 @@ public class Drive {
 
     public Vector2d drive(Vector2d currentPositionVector, double speed){
         //error is target - current
-        errorVector = Vector2d.subtract(targetVector,currentPositionVector);
+        errorVector.set(Vector2d.subtract(targetVector,currentPositionVector));
         //normalize the error vector because we choose the scale here
-        normalizedErrorVector = Vector2d.multiply(errorVector, 0.001);
+        normalizedErrorVector.set(Vector2d.multiply(errorVector, 0.01));
         //sets derivative and correction vectors
-        derivativeVector = Vector2d.subtract(normalizedErrorVector,lastErrorVector);
-        correctionVector = Vector2d.add(Vector2d.multiply(kp, normalizedErrorVector), Vector2d.multiply(kd, derivativeVector));
+        derivativeVector.set(Vector2d.subtract(normalizedErrorVector,lastErrorVector));
+        correctionVector.set(Vector2d.add(Vector2d.multiply(kp, normalizedErrorVector), Vector2d.multiply(kd, derivativeVector)));
 
 
         //last error recursivity
-        lastErrorVector = normalizedErrorVector;
+        lastErrorVector.set(normalizedErrorVector);
         return correctionVector;
 
     }
@@ -59,6 +59,16 @@ public class Drive {
 
     public double getAngle(){
         return targetAngle;
+    }
+
+    public double getErrorX(Vector2d currentPositionVector){
+        errorVector.set(Vector2d.subtract(targetVector,currentPositionVector));
+        return errorVector.x;
+    }
+
+    public double getErrorY(Vector2d currentPositionVector){
+        errorVector.set(Vector2d.subtract(targetVector,currentPositionVector));
+        return errorVector.y;
     }
 
     public double getkp(){
