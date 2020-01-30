@@ -26,8 +26,8 @@ public class EncoderRedBuild extends LinearOpMode {
         DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
 
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.REVERSE);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -59,7 +59,7 @@ public class EncoderRedBuild extends LinearOpMode {
         int loop = 0;
         double currentX = 1770;
         double currentY = 1000;
-        double initialAngle = -180;
+        double initialAngle = -90;
         double angle;
         double lastfr = 0;
         double lastfl = 0;
@@ -69,8 +69,8 @@ public class EncoderRedBuild extends LinearOpMode {
         double goLeftMotors;
         double dx;
         double dy;
-        homer.setkd(0.6);
-        homer.setkp(0.4);
+        homer.setkd(0.7);
+        homer.setkp(0.3);
 
         while (opModeIsActive()) {
               Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -120,7 +120,7 @@ public class EncoderRedBuild extends LinearOpMode {
 
             //drive under bridge for big points
             if (stage > 7) {
-                homer.setTarget(1200, 0);
+                homer.setTarget(1500, 0);
             }
 
             if (homer.atTarget()) {
@@ -130,7 +130,7 @@ public class EncoderRedBuild extends LinearOpMode {
             Vector2d correction;
             Vector2d currentPosition = new Vector2d(currentX, currentY);
             correction = homer.drive(currentPosition, 1);
-            Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
+            Vector2d correctionWithAngle = new Vector2d(rotate(correction, angles.firstAngle));
             double rot = /*homer.getAngle() - angles.firstAngle*/ 0;
 
             fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
@@ -152,6 +152,7 @@ public class EncoderRedBuild extends LinearOpMode {
             lastfr = fr.getCurrentPosition();
             lastbl = bl.getCurrentPosition();
             lastbr = br.getCurrentPosition();
+            clawMotor.setPower(-.01);
 
             telemetry.addData("Xpos", currentX);
             telemetry.addData("Ypos", currentY);

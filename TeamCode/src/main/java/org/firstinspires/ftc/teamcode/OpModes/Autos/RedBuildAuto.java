@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
-
+@Disabled
 @Autonomous(name="RedBuildAuto", group ="Concept")
 public class RedBuildAuto extends LinearOpMode {
     public static final String TAG = "Vuforia Navigation Sample";

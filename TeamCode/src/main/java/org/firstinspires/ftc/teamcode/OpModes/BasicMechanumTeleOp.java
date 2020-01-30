@@ -6,6 +6,11 @@ package org.firstinspires.ftc.teamcode.OpModes;
         import com.qualcomm.robotcore.hardware.CRServo;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.Servo;
+
+        import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+        import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+        import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+        import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
         import org.firstinspires.ftc.teamcode.Hardware.Arm;
         import org.firstinspires.ftc.teamcode.math.Vector2d;
 
@@ -60,20 +65,41 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
         waitForStart();
         Arm intake = new Arm();
+        double armSpeed = 10;
+        double currentX = 0;
+        double currentY = 0;
+        double initialAngle = 0;
+        double angle;
+        double lastfr = 0;
+        double lastfl = 0;
+        double lastbr = 0;
+        double lastbl = 0;
+        double goRightMotors;
+        double goLeftMotors;
+        double dx;
+        double dy;
 
         while (opModeIsActive()) {
+            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
 
 
 
             //hand control
             if (gamepad1.left_bumper) {
-                handServo.setPower(0.3);
+                handServo.setPower(-0.3);
                 //doorServo.setPosition(0.35);
             } else if (gamepad1.right_bumper) {
-                handServo.setPower(-0.3);
+                handServo.setPower(0.3);
                 //doorServo.setPosition(0);
             } else {
                 handServo.setPower(0);
+            }
+
+            if(gamepad1.a){
+                armSpeed = 10;
+            }else if(gamepad1.b){
+                armSpeed = 40;
             }
 
 
@@ -88,7 +114,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
             //motor setting for arm
             //double armSpeed = intake.move(clawMotor.getCurrentPosition());
             //clawMotor.setPower(armSpeed);
-            clawMotor.setPower(gamepad1.right_stick_y / 10);
+            clawMotor.setPower((gamepad1.right_stick_y / armSpeed));
 
             //toggles Build Plate Grabbers
             if (gamepad1.x && !BaseGrabberDebounce) {
@@ -114,8 +140,23 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 doorServo.setPosition(0.55);
             }*/
 
+            goRightMotors = (fl.getCurrentPosition() - lastfl + br.getCurrentPosition() - lastbr) / 2;
+            goLeftMotors = (fr.getCurrentPosition() - lastfr + bl.getCurrentPosition() - lastbl) / 2;
 
-            telemetry.addData("frPower: ", fr.getPower());
+            dx = goRightMotors - goLeftMotors;
+            dy = goRightMotors + goLeftMotors;
+
+            angle = angles.firstAngle + initialAngle;
+            currentX = currentX + Math.cos(angle) * dx + Math.sin(angle) * dy; // use tan2 to find out how much of dx and dy to use
+            currentY = currentY + Math.cos(angle) * dy + Math.sin(angle) * dx;
+
+            lastfl = fl.getCurrentPosition();
+            lastfr = fr.getCurrentPosition();
+            lastbl = bl.getCurrentPosition();
+            lastbr = br.getCurrentPosition();
+
+
+            /*telemetry.addData("frPower: ", fr.getPower());
             telemetry.addData("flPower: ", fl.getPower());
             telemetry.addData("brPower: ", br.getPower());
             telemetry.addData("blPower: ", bl.getPower());
@@ -126,7 +167,10 @@ package org.firstinspires.ftc.teamcode.OpModes;
             telemetry.addData("Left Bumper: ", gamepad1.left_bumper);
             telemetry.addData("Hand Power: ", handServo.getPower());
             telemetry.addData("Claw Encoder: ", clawMotor.getCurrentPosition());
-            telemetry.addData("Claw Power", clawMotor.getPower());
+            telemetry.addData("Claw Power", armSpeed);*/
+            telemetry.addData("Xpos", currentX);
+            telemetry.addData("Ypos", currentY);
+            telemetry.addData("Angle", angle);
             //telemetry.addData("Door Location", doorServo.getPosition());
 
             telemetry.update();

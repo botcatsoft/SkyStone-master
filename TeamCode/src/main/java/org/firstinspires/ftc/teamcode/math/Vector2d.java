@@ -7,6 +7,11 @@ public class Vector2d {
         this.y = yPos;
     }
 
+    public Vector2d(Vector2d v)  {
+        this.x = v.x;
+        this.y = v.y;
+    }
+
     public static Vector2d add(Vector2d v, Vector2d w) {
         return new Vector2d(v.x + w.x, v.y + w.y);
     }

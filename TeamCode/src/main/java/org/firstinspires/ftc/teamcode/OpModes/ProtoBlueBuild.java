@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -44,7 +45,7 @@ import com.qualcomm.robotcore.hardware.Servo;
                 bl.setPower(1);
                 fr.setPower(1);
                 br.setPower(1);
-                if(fl.getCurrentPosition() > 1000){
+                if(fl.getCurrentPosition() > 1300){
                     stage++;
                 }
             }

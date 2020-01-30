@@ -29,7 +29,7 @@ public class Drive {
         //error is target - current
         errorVector.set(Vector2d.subtract(targetVector,currentPositionVector));
         //normalize the error vector because we choose the scale here
-        normalizedErrorVector.set(Vector2d.multiply(errorVector, 0.01));
+        normalizedErrorVector.set(Vector2d.multiply(errorVector, 0.0005));
         //sets derivative and correction vectors
         derivativeVector.set(Vector2d.subtract(normalizedErrorVector,lastErrorVector));
         correctionVector.set(Vector2d.add(Vector2d.multiply(kp, normalizedErrorVector), Vector2d.multiply(kd, derivativeVector)));

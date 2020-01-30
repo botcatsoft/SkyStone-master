@@ -138,6 +138,8 @@ public class EncoderBlueBuild extends LinearOpMode {
           bl.setPower(correctionWithAngle.x + correctionWithAngle.y - rot);
           br.setPower(correctionWithAngle.x - correctionWithAngle.y + rot);
 
+          clawMotor.setPower(-0.01);
+
 
           goRightMotors = (fl.getCurrentPosition() - lastfl + br.getCurrentPosition() - lastbr) / 2;
           goLeftMotors = (fr.getCurrentPosition() - lastfr + bl.getCurrentPosition() - lastbl) / 2;
