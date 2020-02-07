@@ -105,18 +105,15 @@ import static org.firstinspires.ftc.teamcode.math.Vector2d.rotate;
               stage = 0;
               loop++;
           }
-
           if(homer.atTarget() && intake.atTarget()){
               stage++;
           }
 
-
           Vector2d correction;
           Vector2d currentPosition = new Vector2d(currentX, currentY);
-          correction = homer.drive(currentPosition, 1);
+          correction = homer.drive(currentPosition);
           Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
           double rot = homer.getAngle() - angles.firstAngle;
-
 
           fl.setPower(correctionWithAngle.x - correctionWithAngle.y - rot);
           fr.setPower(correctionWithAngle.x + correctionWithAngle.y + rot);

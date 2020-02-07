@@ -29,6 +29,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
         DcMotor bl = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor br = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor clawMotor = hardwareMap.dcMotor.get("claw_motor");
+        DcMotor handMotor = hardwareMap.dcMotor.get("hand_motor");
 
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -42,6 +43,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
         CRServo handServo = hardwareMap.crservo.get("hand_servo");
         Servo buildPlateServo = hardwareMap.servo.get("BuildPlate_servo");
         Servo buildPlateServo2 = hardwareMap.servo.get("Build_Plate_servo");
+        CRServo liftServoR = hardwareMap.crservo.get("right_lift_servo");
+        CRServo liftServoL = hardwareMap.crservo.get("left_lift_servo");
         //Servo doorServo = hardwareMap.servo.get("Door_servo");
 
         buildPlateServo.setPosition(0.4);
@@ -64,7 +67,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 
         waitForStart();
-        Arm intake = new Arm();
+
         double armSpeed = 10;
         double currentX = 0;
         double currentY = 0;
@@ -86,15 +89,29 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 
             //hand control
-            if (gamepad1.left_bumper) {
+            if (gamepad2.dpad_down) {
+                liftServoR.setPower(-0.3);
+                liftServoL.setPower(0.3);
+                //doorServo.setPosition(0.35);
+            } else if (gamepad2.dpad_up) {
+                liftServoR.setPower(0.3);
+                liftServoL.setPower(-0.3);
+                //doorServo.setPosition(0);
+            } else {
+                liftServoR.setPower(0);
+                liftServoL.setPower(0);
+            }
+
+            if (gamepad2.right_bumper) {
                 handServo.setPower(-0.3);
                 //doorServo.setPosition(0.35);
-            } else if (gamepad1.right_bumper) {
+            } else if (gamepad2.left_bumper) {
                 handServo.setPower(0.3);
                 //doorServo.setPosition(0);
             } else {
                 handServo.setPower(0);
             }
+
 
             if(gamepad1.a){
                 armSpeed = 10;
@@ -114,7 +131,9 @@ package org.firstinspires.ftc.teamcode.OpModes;
             //motor setting for arm
             //double armSpeed = intake.move(clawMotor.getCurrentPosition());
             //clawMotor.setPower(armSpeed);
-            clawMotor.setPower((gamepad1.right_stick_y / armSpeed));
+            clawMotor.setPower((gamepad2.right_stick_y / armSpeed));
+
+            handMotor.setPower((gamepad2.left_stick_y / 10));
 
             //toggles Build Plate Grabbers
             if (gamepad1.x && !BaseGrabberDebounce) {
@@ -134,11 +153,9 @@ package org.firstinspires.ftc.teamcode.OpModes;
                 buildPlateServo2.setPosition(0.6);
             }
 
-            /*if(gamepad1.a){
-                doorServo.setPosition(0);
-            }else if(gamepad1.b){
-                doorServo.setPosition(0.55);
-            }*/
+
+
+
 
             goRightMotors = (fl.getCurrentPosition() - lastfl + br.getCurrentPosition() - lastbr) / 2;
             goLeftMotors = (fr.getCurrentPosition() - lastfr + bl.getCurrentPosition() - lastbl) / 2;
@@ -147,8 +164,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
             dy = goRightMotors + goLeftMotors;
 
             angle = angles.firstAngle + initialAngle;
-            currentX = currentX + Math.cos(angle) * dx + Math.sin(angle) * dy; // use tan2 to find out how much of dx and dy to use
-            currentY = currentY + Math.cos(angle) * dy + Math.sin(angle) * dx;
+            currentX = currentX + (Math.cos(angle) * dx + Math.sin(angle) * dy);
+            currentY = currentY + (Math.cos(angle) * dy + Math.sin(angle) * dx);
 
             lastfl = fl.getCurrentPosition();
             lastfr = fr.getCurrentPosition();

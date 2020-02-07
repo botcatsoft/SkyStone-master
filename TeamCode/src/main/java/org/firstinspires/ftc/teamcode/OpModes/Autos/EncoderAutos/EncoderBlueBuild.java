@@ -128,7 +128,7 @@ public class EncoderBlueBuild extends LinearOpMode {
 
           Vector2d correction;
           Vector2d currentPosition = new Vector2d(currentX, currentY);
-          correction = homer.drive(currentPosition, 1);
+          correction = homer.drive(currentPosition);
           Vector2d correctionWithAngle = rotate(correction, angles.firstAngle);
           double rot = /*homer.getAngle() - angles.firstAngle*/ 0;
 

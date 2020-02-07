@@ -394,19 +394,19 @@ public class BlueBuildAuto extends LinearOpMode {
 
             Vector2d correction;
             Vector2d currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
-            correction = homer.drive(currentPosition, 1);
+            correction = homer.drive(currentPosition);
             Vector2d correctionWithAngle = rotate(correction, lastLocation.get(1,2));
             //this might be wrong, we didn't test it yet
             double rot = (homer.getAngle() - lastLocation.get(1,2))/ 360; //might be wrong variable
 
             if(lastLocationNotNull){
                 currentPosition = new Vector2d(lastLocation.get(0,0), lastLocation.get(0,1));
-                correction = homer.drive(currentPosition, 1);
+                correction = homer.drive(currentPosition);
                 correctionWithAngle = rotate(correction, lastLocation.get(1,2));
                 rot = (homer.getAngle() - lastLocation.get(1,2))/ 360;
             } else{
                 currentPosition = new Vector2d(0,0);
-                correction = homer.drive(currentPosition, 1);
+                correction = homer.drive(currentPosition);
                 correctionWithAngle = rotate(correction, 0);
                 rot = 0;
             }
